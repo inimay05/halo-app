@@ -1,0 +1,6 @@
+export { CompanionCharacter } from './CompanionCharacter'
+export type { Pose, CharacterType } from './CompanionCharacter'
+export { CatSVG }  from './CatSVG'
+export { DogSVG }  from './DogSVG'
+export { DinoSVG } from './DinoSVG'
+export { SealSVG } from './SealSVG'

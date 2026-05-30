@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAFAF2;
+  --foreground: #2D2D3A;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Nunito', Arial, sans-serif;
+}
+
+/* Thin pastel scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C8C0E8 transparent;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #C8C0E8;
+  border-radius: 9999px;
+}
+
+/* Spinner keyframe used by Button */
+@keyframes halo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Avatar bounce used by Avatar */
+@keyframes halo-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
