@@ -44,7 +44,15 @@ export async function deleteChildAction(
   childId: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const supabase = await createClient()
-  const { error } = await supabase.from('child_profiles').delete().eq('id', childId)
+  // Verify authenticated parent owns this child (defense-in-depth beyond RLS)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: 'Not authenticated' }
+
+  const { error } = await supabase
+    .from('child_profiles')
+    .delete()
+    .eq('id', childId)
+    .eq('parent_id', user.id)
   if (error) return { ok: false, error: error.message }
   revalidatePath('/parent/profiles')
   return { ok: true }
@@ -55,10 +63,15 @@ export async function updateChildAction(
   updates: { name?: string; active_companion?: string },
 ): Promise<{ ok: boolean; error?: string }> {
   const supabase = await createClient()
+  // Verify authenticated parent owns this child (defense-in-depth beyond RLS)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: 'Not authenticated' }
+
   const { error } = await supabase
     .from('child_profiles')
     .update(updates)
     .eq('id', childId)
+    .eq('parent_id', user.id)
   if (error) return { ok: false, error: error.message }
   revalidatePath('/parent/profiles')
   return { ok: true }

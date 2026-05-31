@@ -25,12 +25,18 @@ export async function grantTimeBankAction(
   minutes: number,
 ): Promise<{ ok: boolean; error?: string }> {
   if (minutes <= 0) return { ok: false, error: 'Minutes must be positive' }
+  if (minutes > 120) return { ok: false, error: 'Cannot grant more than 120 minutes at once' }
   const supabase = await createClient()
+
+  // Verify authenticated parent owns this child (defense-in-depth beyond RLS)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: 'Not authenticated' }
 
   const { data: child } = await supabase
     .from('child_profiles')
     .select('weekly_bank_ms')
     .eq('id', childId)
+    .eq('parent_id', user.id)
     .single()
 
   if (!child) return { ok: false, error: 'Child not found' }
@@ -49,6 +55,19 @@ export async function saveRulesAction(
   payload: ParentRulesPayload,
 ): Promise<{ ok: boolean; error?: string }> {
   const supabase = await createClient()
+
+  // Verify authenticated parent owns this child (defense-in-depth beyond RLS)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { ok: false, error: 'Not authenticated' }
+
+  const { data: ownership } = await supabase
+    .from('child_profiles')
+    .select('id')
+    .eq('id', payload.child_id)
+    .eq('parent_id', user.id)
+    .single()
+  if (!ownership) return { ok: false, error: 'Child not found' }
+
   const { error } = await supabase
     .from('parent_rules')
     .upsert({ ...payload, updated_at: new Date().toISOString() }, { onConflict: 'child_id' })

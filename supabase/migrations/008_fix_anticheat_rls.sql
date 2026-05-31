@@ -1,0 +1,10 @@
+-- Clarify anticheat_events INSERT policy.
+--
+-- The original policy requires auth.uid() to be the parent of the child.
+-- This is correct for in-app (Next.js /child/*) inserts where the authenticated
+-- user is the parent. The widget does NOT insert directly into anticheat_events.
+-- Widget anticheat events (anticheat_break_skipped, anticheat_tamper_detected,
+-- anticheat_rapid_toggle) go through /api/widget/events → session_events,
+-- not anticheat_events.
+--
+-- No schema change needed. This migration is a no-op documentation marker.

@@ -34,8 +34,17 @@ export class TimeBankEngine {
     return !error
   }
 
-  // Called by Supabase Edge Function cron every Sunday 00:00
+  // NOTE: resetWeeklyBank() is intended to be called by a Supabase Edge Function
+  // cron running with the service-role key, NOT from the browser. Calling this
+  // from the client will silently fail because the anon RLS policy only allows
+  // a parent to update their own children (not a bulk cross-parent UPDATE).
+  // This method is intentionally left here for reference but should not be
+  // invoked client-side. Use a Supabase Edge Function + service-role key instead.
   static async resetWeeklyBank(): Promise<void> {
+    if (typeof window !== 'undefined') {
+      console.error('[TimeBankEngine] resetWeeklyBank() must not be called from the browser.')
+      return
+    }
     await createClient()
       .from('child_profiles')
       .update({ weekly_bank_ms: 0 })
