@@ -7,6 +7,8 @@ import { calculateScoreInline, getScoreColor } from '@/lib/engagementScore'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip,
   ResponsiveContainer, Cell,
+  PieChart, Pie, Legend,
+  LineChart, Line, CartesianGrid,
 } from 'recharts'
 import { COLORS } from '@/config/tokens'
 import { format, subDays } from 'date-fns'
@@ -37,6 +39,7 @@ export default function AnalyticsPage() {
   const [fastCount,    setFastCount]    = useState(0)
   const [passiveTrend, setPassiveTrend] = useState<number[]>([])
   const [loading,      setLoading]      = useState(true)
+  const [weekTrend,    setWeekTrend]    = useState<{ label: string; screenMs: number }[]>([])
 
   useEffect(() => {
     if (!activeChild) return
@@ -114,6 +117,21 @@ export default function AnalyticsPage() {
         allEvents.filter((e) => e.event_type === 'passiveStare' && e.created_at.startsWith(date)).length,
       )
       setPassiveTrend(trend)
+
+      // 4-week daily trend (use last 28 days)
+      const trend4w = Array.from({ length: 28 }, (_, i) => {
+        const d = subDays(new Date(), 27 - i)
+        const dateStr = format(d, 'yyyy-MM-dd')
+        const dayEvts = allEvents.filter((e) => e.created_at.startsWith(dateStr))
+        const sessionMsArr = dayEvts
+          .filter((e) => (e.metadata as Record<string, unknown>)?.sessionMs)
+          .map((e) => (e.metadata as Record<string, unknown>).sessionMs as number)
+        return {
+          label:    format(d, 'MMM d'),
+          screenMs: sessionMsArr.length ? Math.max(...sessionMsArr) : 0,
+        }
+      })
+      setWeekTrend(trend4w)
 
       setLoading(false)
     })
@@ -214,6 +232,60 @@ export default function AnalyticsPage() {
               </table>
             )}
           </div>
+
+          {/* Session state breakdown doughnut */}
+          {days.length > 0 && (() => {
+            const totalMs = days.reduce((s, d) => s + d.screenMs, 0)
+            const limitMs = days[0]?.limitMs ?? 3_600_000
+            const warnMs  = days[0] ? limitMs * 0.7 : 0
+            const healthy = days.filter((d) => d.screenMs > 0 && d.screenMs <= warnMs).reduce((s, d) => s + d.screenMs, 0)
+            const warning = days.filter((d) => d.screenMs > warnMs && d.screenMs <= limitMs).reduce((s, d) => s + d.screenMs, 0)
+            const blocked = days.filter((d) => d.screenMs > limitMs).reduce((s, d) => s + d.screenMs, 0)
+            const pieData = [
+              { name: 'Healthy', value: healthy, color: COLORS.sageDark },
+              { name: 'Warning', value: warning, color: COLORS.lemonDark },
+              { name: 'Over limit', value: blocked, color: COLORS.roseDark },
+            ].filter((d) => d.value > 0)
+            return totalMs > 0 ? (
+              <div style={CARD}>
+                <span style={{ display: 'block', fontWeight: 800, fontSize: 15, color: COLORS.skyDark, marginBottom: 16 }}>
+                  🟢 Session State Breakdown (7 days)
+                </span>
+                <p style={{ fontSize: 12, color: COLORS.muted, margin: '0 0 12px' }}>
+                  Informational — for parents only. Screen time totals by session health state.
+                </p>
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={80}>
+                      {pieData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip formatter={(v) => fmtTime(Number(v))} contentStyle={{ borderRadius: 10, border: 'none', boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }} />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            ) : null
+          })()}
+
+          {/* 4-week trend line chart */}
+          {weekTrend.length > 0 && (
+            <div style={CARD}>
+              <span style={{ display: 'block', fontWeight: 800, fontSize: 15, color: COLORS.skyDark, marginBottom: 16 }}>
+                📈 4-Week Daily Screen Time Trend
+              </span>
+              <ResponsiveContainer width="100%" height={180}>
+                <LineChart data={weekTrend}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#F0F4F8" />
+                  <XAxis dataKey="label" tick={{ fontSize: 10, fill: COLORS.muted }} axisLine={false} tickLine={false} interval={6} />
+                  <YAxis tickFormatter={(v) => fmtTime(v)} tick={{ fontSize: 10, fill: COLORS.muted }} axisLine={false} tickLine={false} width={44} />
+                  <Tooltip formatter={(v) => [fmtTime(Number(v)), 'Screen time']} labelStyle={{ fontWeight: 700 }} contentStyle={{ borderRadius: 10, border: 'none', boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }} />
+                  <Line type="monotone" dataKey="screenMs" stroke={COLORS.skyDark} strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
 
           {/* Behaviour signals */}
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>

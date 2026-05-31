@@ -2,7 +2,9 @@ import { getRandomTask } from '../lib/breaks/breakTasks'
 
 const OVERLAY_ID  = '__halo_takeover__'
 const PIN_ID      = '__halo_pin__'
-const LONG_MS     = 1_000
+const LONG_MS     = 1_500
+
+const COMPANION_EMOJI: Record<string, string> = { cat: '🐱', dog: '🐶', dino: '🦕', seal: '🦭' }
 
 // Spring constants from spec (stiffness 40, damping 15)
 const SPRING_K    = 40
@@ -21,6 +23,7 @@ export class BreakTakeover {
     private readonly childId: string,
     private readonly baseUrl: string,
     private readonly onSuccess: () => void,
+    private readonly companionType: string = 'cat',
   ) {}
 
   // ── mount ─────────────────────────────────────────────────────────
@@ -77,7 +80,7 @@ export class BreakTakeover {
     el.innerHTML = `
       <span id="__halo_big_emoji__"
         style="font-size:80px;line-height:1;transform:scale(0);display:block;transform-origin:center">
-        🐱
+        ${COMPANION_EMOJI[this.companionType] ?? '🐱'}
       </span>
       <h2 style="color:#C05621;font-size:26px;font-weight:800;margin:28px 0 10px 0;text-align:center">
         Time for a break!

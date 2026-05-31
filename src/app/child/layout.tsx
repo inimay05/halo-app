@@ -1,4 +1,5 @@
 import { Nunito }        from 'next/font/google'
+import { cookies }       from 'next/headers'
 import { createClient }  from '@/lib/supabase/server'
 import { ChildShell }    from '@/components/child/ChildShell'
 import type { ChildProfile } from '@/types/database'
@@ -17,17 +18,41 @@ export default async function ChildLayout({ children }: { children: React.ReactN
   const { data: { user } } = await supabase.auth.getUser()
 
   let profile: ChildProfile | null = null
+
   if (user) {
-    // Load the first (or only) child profile linked to this parent session.
-    // In production the active child_id would come from the session token.
-    const { data } = await supabase
-      .from('child_profiles')
-      .select('*')
-      .eq('parent_id', user.id)
-      .order('created_at')
-      .limit(1)
-      .single()
-    profile = (data as ChildProfile) ?? null
+    const cookieStore = await cookies()
+    const activeChildId = cookieStore.get('active_child_id')?.value
+
+    if (activeChildId) {
+      // Try loading the specific child stored in cookie
+      const { data } = await supabase
+        .from('child_profiles')
+        .select('*')
+        .eq('id', activeChildId)
+        .eq('parent_id', user.id)
+        .single()
+      profile = (data as ChildProfile) ?? null
+    }
+
+    if (!profile) {
+      // Fall back to first child and set the cookie
+      const { data } = await supabase
+        .from('child_profiles')
+        .select('*')
+        .eq('parent_id', user.id)
+        .order('created_at')
+        .limit(1)
+        .single()
+      profile = (data as ChildProfile) ?? null
+
+      if (profile) {
+        cookieStore.set('active_child_id', profile.id, {
+          httpOnly: true,
+          path:     '/',
+          maxAge:   24 * 60 * 60,
+        })
+      }
+    }
   }
 
   if (!profile) {

@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Halo — Healthy Screen Time for Kids
 
-## Getting Started
+A Next.js 14 app with Supabase that helps parents manage children's screen time through a companion-based engagement system.
 
-First, run the development server:
+## Prerequisites
+
+- Node.js 18+
+- npm
+- A [Supabase](https://supabase.com) account and project
+
+## Setup
+
+1. **Clone the repo**
+   ```bash
+   git clone <repo-url>
+   cd halo-app
+   ```
+
+2. **Copy environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Then fill in your Supabase credentials in `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL` — your Supabase project URL
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — your Supabase anon/public key
+   - `SUPABASE_SERVICE_ROLE_KEY` — your Supabase service role key (server-side only)
+
+3. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+## Database setup
+
+Run the migration files in order in your Supabase SQL editor or via the CLI:
+
+```bash
+# Via Supabase CLI (if linked)
+supabase db push
+
+# Or manually run each file in the Supabase SQL editor:
+supabase/migrations/001_init.sql
+supabase/migrations/002_sessions.sql
+supabase/migrations/003_rewards.sql
+supabase/migrations/004_parent.sql
+supabase/migrations/005_anticheat.sql
+supabase/migrations/006_last_seen.sql
+supabase/migrations/007_garden_delta.sql
+```
+
+## Local development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Widget build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The browser widget (injected on child's browser) is a self-contained IIFE bundle:
 
-## Learn More
+```bash
+npm run build:widget
+```
 
-To learn more about Next.js, take a look at the following resources:
+This outputs `public/halo-widget.js`. Install on any website with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```html
+<script src="https://your-app.vercel.app/halo-widget.js" data-child-id="CHILD_UUID"></script>
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Production build
 
-## Deploy on Vercel
+```bash
+npm run build
+npm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The build script automatically builds the widget before running `next build`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Architecture overview
+
+- `/src/app/(auth)/` — Login, register, onboarding, PIN setup
+- `/src/app/(parent)/` — Parent PIN verification, dashboard
+- `/src/app/parent/` — Parent management pages (analytics, rules, garden, profiles)
+- `/src/app/child/` — Child-facing pages (home, shop, journey, time bank)
+- `/src/app/api/widget/` — API routes used by the browser widget
+- `/src/lib/` — Core engines (engagement detection, coins, badges, garden, breaks)
+- `/src/widget/` — Browser widget source (compiled to `public/halo-widget.js`)
+- `/src/store/` — Zustand client-side stores
+- `/supabase/migrations/` — SQL migration files
+
+## Product constraints
+
+- Coins are cosmetic rewards only — they never extend screen time
+- Time Bank is parent-controlled only — parents grant minutes, children cannot add time
+- Engagement scores are informational for parents only

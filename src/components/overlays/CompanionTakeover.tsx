@@ -150,7 +150,9 @@ function Overlay({
   tier: AgeTier
   onDismiss: () => void
 }) {
-  const cfg = AGE_CONFIG[tier]
+  const activeChild = useProfileStore((s) => s.activeChild())
+  const companion   = (activeChild?.active_companion ?? AGE_CONFIG[tier].character) as CharacterType
+  const cfg         = { ...AGE_CONFIG[tier], character: companion }
   const { headline, sub, pose } = getMessages(tier, stateType)
 
   const isFullBlock = stateType === 'fullBlock' || stateType === 'sleepDetected'

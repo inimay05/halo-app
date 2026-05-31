@@ -20,6 +20,31 @@ export interface ParentRulesPayload {
   voice_challenge_enabled: boolean
 }
 
+export async function grantTimeBankAction(
+  childId: string,
+  minutes: number,
+): Promise<{ ok: boolean; error?: string }> {
+  if (minutes <= 0) return { ok: false, error: 'Minutes must be positive' }
+  const supabase = await createClient()
+
+  const { data: child } = await supabase
+    .from('child_profiles')
+    .select('weekly_bank_ms')
+    .eq('id', childId)
+    .single()
+
+  if (!child) return { ok: false, error: 'Child not found' }
+
+  const { error } = await supabase
+    .from('child_profiles')
+    .update({ weekly_bank_ms: child.weekly_bank_ms + minutes * 60_000 })
+    .eq('id', childId)
+
+  if (error) return { ok: false, error: error.message }
+  revalidatePath('/parent/rules')
+  return { ok: true }
+}
+
 export async function saveRulesAction(
   payload: ParentRulesPayload,
 ): Promise<{ ok: boolean; error?: string }> {

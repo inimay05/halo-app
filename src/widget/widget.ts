@@ -27,17 +27,8 @@ import { SupabaseSync }     from './SupabaseSync'
   const companion = new WidgetCompanion()
   const sync      = new SupabaseSync(childId, baseUrl)
 
-  const takeover  = new BreakTakeover(childId, baseUrl, () => {
-    // Parent unlocked via PIN
-    detection.reset()
-    companion.reset()
-    takeover.hide()
-    sync.resetSession()
-  })
-
-  // ── mount DOM elements ─────────────────────────────────────────────
+  // ── mount companion immediately ────────────────────────────────────
   companion.mount()
-  takeover.mount()
 
   // ── boot ──────────────────────────────────────────────────────────
   sync.init().then((config) => {
@@ -45,6 +36,17 @@ import { SupabaseSync }     from './SupabaseSync'
       console.warn('[Halo] Failed to fetch child config.')
       return
     }
+
+    // BreakTakeover uses companion type from config to show correct emoji
+    const takeover = new BreakTakeover(childId, baseUrl, () => {
+      // Parent unlocked via PIN
+      detection.reset()
+      companion.reset()
+      takeover.hide()
+      sync.resetSession()
+    }, config.active_companion)
+
+    takeover.mount()
 
     companion.setCompanion(config.active_companion)
     companion.setLimitMs(config.limitMs)

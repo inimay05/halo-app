@@ -2,12 +2,13 @@ import { createClient } from '@/lib/supabase/client'
 import { useCoinStore }  from '@/store/coinStore'
 
 export const COIN_REWARDS: Record<string, number> = {
-  break_completed:  5,
+  break_completed:  10,
   physical_task:    3,
   stayed_off_30min: 10,
   early_exit:       15,
-  week_streak:      25,
+  week_streak:      50,
   exercise_mission: 5,
+  voice_challenge:  20,
 }
 
 export const COSMETIC_COSTS: Record<string, number> = {

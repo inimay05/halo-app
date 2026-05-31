@@ -8,6 +8,8 @@ export type BadgeType =
   | 'garden_bloom'
   | 'night_champion_7'
   | 'mission_explorer_10'
+  | 'fifty_coins'
+  | 'voice_hero'
 
 // Map of badge → which trigger events should prompt a check
 const BADGE_TRIGGERS: Record<BadgeType, string[]> = {
@@ -17,6 +19,8 @@ const BADGE_TRIGGERS: Record<BadgeType, string[]> = {
   garden_bloom:         ['garden_water'],
   night_champion_7:     ['night_champion'],
   mission_explorer_10:  ['break_completed', 'exercise_mission'],
+  fifty_coins:          ['break_completed', 'early_exit', 'voice_challenge', 'week_streak'],
+  voice_hero:           ['voice_challenge'],
 }
 
 type SupabaseClient = ReturnType<typeof createClient>
@@ -78,6 +82,24 @@ const CONDITIONS: Record<BadgeType, (childId: string, db: SupabaseClient) => Pro
       .eq('child_id', childId)
       .in('event_type', ['break_completed', 'exercise_mission'])
     return (count ?? 0) >= 10
+  },
+
+  fifty_coins: async (childId, db) => {
+    const { data } = await db
+      .from('child_profiles')
+      .select('coin_balance')
+      .eq('id', childId)
+      .single()
+    return (data?.coin_balance ?? 0) >= 50
+  },
+
+  voice_hero: async (childId, db) => {
+    const { count } = await db
+      .from('session_events')
+      .select('*', { count: 'exact', head: true })
+      .eq('child_id', childId)
+      .eq('event_type', 'voice_challenge')
+    return (count ?? 0) >= 1
   },
 }
 

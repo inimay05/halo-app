@@ -1,6 +1,7 @@
 'use server'
 
 import bcrypt           from 'bcryptjs'
+import { cookies }      from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { getAgeProfile } from '@/lib/ageProfile'
 import type { AgeTier } from '@/lib/ageProfile'
@@ -44,6 +45,16 @@ export async function completeOnboardingAction(
     weekly_bank_ms:   0,
   })
   if (childErr) return { ok: false, error: childErr.message }
+
+  // Set parent_verified cookie so redirect to /parent works without re-entering PIN
+  const cookieStore = await cookies()
+  cookieStore.set('parent_verified', '1', {
+    httpOnly: true,
+    secure:   process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge:   4 * 60 * 60,
+    path:     '/',
+  })
 
   return { ok: true, ageTier }
 }

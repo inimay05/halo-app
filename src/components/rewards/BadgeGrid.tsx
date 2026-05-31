@@ -24,6 +24,8 @@ const BADGE_META: Record<BadgeType, BadgeMeta> = {
   garden_bloom:         { name: 'Green Thumb',        description: 'Grew your garden all the way to full bloom!',   icon: '🌸', color: COLORS.mint        },
   night_champion_7:     { name: 'Night Champion',     description: 'Kept healthy screen habits at night × 7.',      icon: '🌙', color: COLORS.sky         },
   mission_explorer_10:  { name: 'Mission Explorer',   description: 'Completed 10 eye & body missions.',             icon: '🚀', color: COLORS.sage        },
+  fifty_coins:          { name: 'Coin Collector',     description: 'Accumulated 50 coins.',                         icon: '🪙', color: COLORS.lemon       },
+  voice_hero:           { name: 'Voice Hero',         description: 'Completed a voice challenge.',                  icon: '🎤', color: COLORS.lavender    },
 }
 
 const ALL_BADGES = Object.keys(BADGE_META) as BadgeType[]

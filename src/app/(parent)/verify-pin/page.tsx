@@ -12,17 +12,50 @@ import { useSessionStore } from '@/store/sessionStore'
 import { COLORS } from '@/config/tokens'
 import { verifyPinAction } from './actions'
 
-const MAX_ATTEMPTS = 3
-const LOCKOUT_SECS = 30
+const MAX_ATTEMPTS  = 3
+const LOCKOUT_SECS  = 30
+const ATTEMPTS_KEY  = 'halo_pin_attempts'
+const LOCKED_KEY    = 'halo_pin_locked_until'
+
+function getPersistedAttempts(): number {
+  if (typeof window === 'undefined') return 0
+  return parseInt(document.cookie.match(/halo_pin_attempts=(\d+)/)?.[1] ?? '0', 10)
+}
+
+function getPersistedLockedUntil(): number | null {
+  if (typeof window === 'undefined') return null
+  const v = parseInt(document.cookie.match(/halo_pin_locked_until=(\d+)/)?.[1] ?? '0', 10)
+  return v > Date.now() ? v : null
+}
+
+function setCookieValue(name: string, value: string, maxAge: number) {
+  document.cookie = `${name}=${value};path=/;max-age=${maxAge};samesite=lax`
+}
+
+function deleteCookie(name: string) {
+  document.cookie = `${name}=;path=/;max-age=0`
+}
 
 function VerifyPinForm() {
   const router = useRouter()
   const setParentVerified = useSessionStore((s) => s.setParentVerified)
-  const [attempts, setAttempts] = useState(0)
+
+  const [attempts,    setAttempts]    = useState(0)
   const [lockedUntil, setLockedUntil] = useState<number | null>(null)
-  const [remaining, setRemaining] = useState(0)
-  const [isPending, startTransition] = useTransition()
-  const [resetKey, setResetKey] = useState(0)
+  const [remaining,   setRemaining]   = useState(0)
+  const [isPending,   startTransition] = useTransition()
+  const [resetKey,    setResetKey]    = useState(0)
+
+  // Load persisted state from cookies on mount
+  useEffect(() => {
+    const persistedAttempts    = getPersistedAttempts()
+    const persistedLockedUntil = getPersistedLockedUntil()
+    setAttempts(persistedAttempts)
+    if (persistedLockedUntil) {
+      setLockedUntil(persistedLockedUntil)
+      setRemaining(Math.ceil((persistedLockedUntil - Date.now()) / 1000))
+    }
+  }, [])
 
   // Countdown timer during lockout
   useEffect(() => {
@@ -33,6 +66,8 @@ function VerifyPinForm() {
         setLockedUntil(null)
         setAttempts(0)
         setResetKey((k) => k + 1)
+        deleteCookie(ATTEMPTS_KEY)
+        deleteCookie(LOCKED_KEY)
         clearInterval(tick)
       } else {
         setRemaining(secs)
@@ -48,20 +83,23 @@ function VerifyPinForm() {
       const result = await verifyPinAction(pin)
       if (result.ok) {
         setParentVerified(true)
+        deleteCookie(ATTEMPTS_KEY)
+        deleteCookie(LOCKED_KEY)
         router.push('/parent')
         router.refresh()
       } else {
         const next = attempts + 1
         setAttempts(next)
+        setCookieValue(ATTEMPTS_KEY, String(next), LOCKOUT_SECS * 2)
         if (next >= MAX_ATTEMPTS) {
-          setLockedUntil(Date.now() + LOCKOUT_SECS * 1000)
+          const until = Date.now() + LOCKOUT_SECS * 1000
+          setLockedUntil(until)
           setRemaining(LOCKOUT_SECS)
+          setCookieValue(LOCKED_KEY, String(until), LOCKOUT_SECS)
         }
-        // Let PinInput handle the shake — return false signals wrong PIN
       }
     })
 
-    // Optimistic: return false so PinInput shakes; we'll handle success via router
     return false
   }
 

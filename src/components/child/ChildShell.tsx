@@ -10,6 +10,11 @@ import { EngagementProvider }               from '@/components/providers/Engagem
 import { CompanionTakeover }                from '@/components/overlays/CompanionTakeover'
 import { HeroExitOverlay }                  from '@/components/child/HeroExitOverlay'
 import { ChildBadgeCelebration }            from '@/components/child/ChildBadgeCelebration'
+import { BreakOverlay }                     from '@/components/breaks/BreakOverlay'
+import { SleepCreep }                       from '@/components/overlays/SleepCreep'
+import { MissionCard }                      from '@/components/breaks/MissionCard'
+import { useBreakManager }                  from '@/lib/breaks/BreakManager'
+import { useEngagementStore }               from '@/store/engagementStore'
 import { CoinEngine, COIN_REWARDS }         from '@/lib/rewards/CoinEngine'
 import { createClient }                     from '@/lib/supabase/client'
 import { useProfileStore }                  from '@/store/profileStore'
@@ -68,6 +73,9 @@ export function ChildShell({ profile, children }: Props) {
   const loadBadges                  = useCallback(() => BadgeEngine.loadBadges(profile.id), [profile.id])
 
   const { multiTabBlocked } = useAntiCheat(profile.id)
+  const { breakVisible, currentTask, handleBreakComplete, handleBreakSkipped } = useBreakManager()
+  const isBlocked   = useEngagementStore((s) => s.isBlocked)
+  const isSleeping  = useEngagementStore((s) => s.state.type === 'sleepDetected')
 
   const [showSheet,   setShowSheet]   = useState(false)
   const [showHero,    setShowHero]    = useState(false)
@@ -110,6 +118,14 @@ export function ChildShell({ profile, children }: Props) {
       {/* ── Engagement engine (singleton) ── */}
       <EngagementProvider />
       <CompanionTakeover />
+      <BreakOverlay
+        visible={breakVisible}
+        task={currentTask}
+        onBreakComplete={handleBreakComplete}
+        onBreakSkipped={handleBreakSkipped}
+      />
+      <SleepCreep active={isSleeping} />
+      <MissionCard active={!isBlocked} />
 
       {/* ── Multi-tab blocking overlay ── */}
       {multiTabBlocked && (

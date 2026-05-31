@@ -1,8 +1,8 @@
 'use client'
 
-import { usePathname, useRouter }   from 'next/navigation'
+import { usePathname }              from 'next/navigation'
 import Link                         from 'next/link'
-import { useState }                 from 'react'
+import { useState, useEffect }      from 'react'
 import { useProfileStore }          from '@/store/profileStore'
 import type { ChildProfile }        from '@/types/database'
 import { COLORS }                   from '@/config/tokens'
@@ -92,8 +92,12 @@ function ChildSwitcher({ profiles }: { profiles: ChildProfile[] }) {
 }
 
 export function ParentShell({ profiles, children }: Props) {
-  const pathname = usePathname()
-  const router   = useRouter()
+  const pathname          = usePathname()
+  const setChildProfiles  = useProfileStore((s) => s.setChildProfiles)
+
+  useEffect(() => {
+    setChildProfiles(profiles)
+  }, [profiles, setChildProfiles])
 
   return (
     <div style={{ display: 'flex', minHeight: '100dvh', background: '#F4F8FC' }}>

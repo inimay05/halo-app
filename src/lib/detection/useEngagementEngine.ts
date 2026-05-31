@@ -10,10 +10,12 @@ import { useProfileStore }    from '@/store/profileStore'
 export function useEngagementEngine() {
   const activeChild   = useProfileStore((s) => s.activeChild())
   const [state, setState] = useState<EngagementState>({ type: 'healthy', sessionMs: 0 })
+  const [sessionMs, setSessionMs] = useState(0)
 
   const engineRef         = useRef<EngagementEngine | null>(null)
   const activeChildRef    = useRef(activeChild)
   const lastLoggedTypeRef = useRef<string | null>(null)
+  const sessionMsRef      = useRef(0)
 
   // Keep ref in sync so the stable callback can read current child without re-creating
   useEffect(() => {
@@ -22,6 +24,11 @@ export function useEngagementEngine() {
 
   // Stable callback — uses refs so engine never needs to restart due to closure drift
   const handleStateChange = useCallback((s: EngagementState) => {
+    // Track sessionMs regardless of state type
+    if (s.type === 'healthy') {
+      sessionMsRef.current = s.sessionMs
+      setSessionMs(s.sessionMs)
+    }
     setState(s)
 
     // Write to Supabase only on state-type transitions (not every 5s poll)
@@ -59,11 +66,12 @@ export function useEngagementEngine() {
   }, [activeChild?.id, handleStateChange])
 
   const isBlocked = state.type === 'fullBlock' || state.type === 'sleepDetected'
-  const sessionMs = state.type === 'healthy' ? state.sessionMs : 0
 
   const resetSession = useCallback(() => {
     engineRef.current?.reset()
     lastLoggedTypeRef.current = null
+    sessionMsRef.current = 0
+    setSessionMs(0)
   }, [])
 
   return { state, sessionMs, isBlocked, engine: engineRef, resetSession }

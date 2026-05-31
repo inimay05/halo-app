@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:widget && next build",
     "start": "next start",
     "lint": "next lint",
     "build:widget": "esbuild src/widget/widget.ts --bundle --outfile=public/halo-widget.js --format=iife --platform=browser --minify --tsconfig=tsconfig.json"

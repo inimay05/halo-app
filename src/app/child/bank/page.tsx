@@ -1,14 +1,11 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { motion, useAnimationControls }     from 'framer-motion'
-import { useProfileStore }                  from '@/store/profileStore'
-import { useEngagementStore }               from '@/store/engagementStore'
-import { TimeBankEngine }                   from '@/lib/rewards/TimeBankEngine'
-import { createClient }                     from '@/lib/supabase/client'
-import { COLORS }                           from '@/config/tokens'
-
-const SAVE_MS = 15 * 60_000 // 15 minutes
+import { motion }                            from 'framer-motion'
+import { useProfileStore }                   from '@/store/profileStore'
+import { useEngagementStore }                from '@/store/engagementStore'
+import { createClient }                      from '@/lib/supabase/client'
+import { COLORS }                            from '@/config/tokens'
 
 // ─── Circular ring ─────────────────────────────────────────────────────────────
 
@@ -61,10 +58,9 @@ function ProgressRing({
 // ─── Coin jar SVG ──────────────────────────────────────────────────────────────
 
 function CoinJar({ fill }: { fill: number }) {
-  // fill: 0–1
   const clampedFill = Math.min(1, Math.max(0, fill))
-  const jarH        = 80  // inner height of liquid area
-  const liquidY     = 20 + jarH * (1 - clampedFill) // top of liquid
+  const jarH        = 80
+  const liquidY     = 20 + jarH * (1 - clampedFill)
   const liquidH     = jarH * clampedFill
 
   return (
@@ -74,10 +70,8 @@ function CoinJar({ fill }: { fill: number }) {
           <rect x={10} y={20} width={70} height={jarH + 4} rx={4} />
         </clipPath>
       </defs>
-      {/* Jar body */}
       <rect x={10} y={20} width={70} height={jarH + 10} rx={8} fill="white"
         stroke={COLORS.skyDark} strokeWidth={2.5} />
-      {/* Liquid */}
       {clampedFill > 0 && (
         <rect
           x={11} y={liquidY}
@@ -87,15 +81,12 @@ function CoinJar({ fill }: { fill: number }) {
           rx={4}
         />
       )}
-      {/* Jar neck */}
       <rect x={22} y={12} width={46} height={12} rx={4}
         fill="white" stroke={COLORS.skyDark} strokeWidth={2.5} />
-      {/* Coin icon on jar */}
       <text x={45} y={75} textAnchor="middle" dominantBaseline="middle"
         fontSize={28} style={{ userSelect: 'none' }}>
         🪙
       </text>
-      {/* Fill % label */}
       {clampedFill > 0.15 && (
         <text
           x={45} y={liquidY + liquidH * 0.5}
@@ -116,13 +107,10 @@ export default function BankPage() {
   const activeChild = useProfileStore((s) => s.activeChild())
   const sessionMs   = useEngagementStore((s) => s.sessionMs)
 
-  const [limitMs,        setLimitMs]        = useState(3_600_000)
-  const [bankMs,         setBankMs]         = useState(0)
-  const [ceilingMs,      setCeilingMs]      = useState(7_200_000)
-  const [reaction,       setReaction]       = useState<string | null>(null)
-  const [loading,        setLoading]        = useState(true)
-
-  const companionCtrl = useAnimationControls()
+  const [limitMs,   setLimitMs]   = useState(3_600_000)
+  const [bankMs,    setBankMs]    = useState(0)
+  const [ceilingMs, setCeilingMs] = useState(7_200_000)
+  const [loading,   setLoading]   = useState(true)
 
   const refresh = useCallback(async (childId: string) => {
     const supabase = createClient()
@@ -140,38 +128,11 @@ export default function BankPage() {
     if (activeChild) refresh(activeChild.id)
   }, [activeChild?.id, refresh])
 
-  const handleSave = async () => {
-    if (!activeChild) return
-    const remaining = Math.max(0, limitMs - sessionMs)
-    if (remaining < SAVE_MS) {
-      await companionCtrl.start({ x: [-6, 6, -6, 4, 0], transition: { duration: 0.35 } })
-      setReaction('Not enough time remaining to save!')
-      setTimeout(() => setReaction(null), 2_500)
-      return
-    }
-    await TimeBankEngine.saveMinutes(activeChild.id, SAVE_MS)
-    setBankMs((b) => Math.min(b + SAVE_MS, ceilingMs))
-    setReaction('Smart thinking! ⭐')
-    await companionCtrl.start({ y: [0, -20, 0], transition: { duration: 0.5 } })
-    setTimeout(() => setReaction(null), 2_500)
-  }
-
-  const handleUseAll = async () => {
-    if (!activeChild || bankMs === 0) return
-    const ok = await TimeBankEngine.spendFromBank(activeChild.id, bankMs)
-    if (ok) {
-      setBankMs(0)
-      setReaction('Enjoy your extra time! 🎉')
-      await companionCtrl.start({ rotate: [0, 12, -12, 0], transition: { duration: 0.5 } })
-      setTimeout(() => setReaction(null), 2_500)
-    }
-  }
-
   if (!activeChild) return null
 
-  const bankFill   = ceilingMs > 0 ? bankMs / ceilingMs : 0
-  const bankMin    = Math.round(bankMs / 60_000)
-  const bankLabel  = bankMin < 60
+  const bankFill  = ceilingMs > 0 ? bankMs / ceilingMs : 0
+  const bankMin   = Math.round(bankMs / 60_000)
+  const bankLabel = bankMin < 60
     ? `${bankMin} minute${bankMin !== 1 ? 's' : ''}`
     : `${Math.floor(bankMin / 60)}h ${bankMin % 60}m`
 
@@ -181,7 +142,7 @@ export default function BankPage() {
         Time Bank 🏦
       </div>
       <div style={{ fontSize: 14, color: COLORS.muted, marginBottom: 28 }}>
-        Save time for later or use what you&apos;ve saved.
+        Your screen time and saved minutes.
       </div>
 
       {loading ? (
@@ -205,87 +166,35 @@ export default function BankPage() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-              <motion.div animate={companionCtrl}>
-                <CoinJar fill={bankFill} />
-              </motion.div>
+              <CoinJar fill={bankFill} />
               <div style={{
                 fontSize:   14,
                 fontWeight: 800,
                 color:      COLORS.skyDark,
                 textAlign:  'center',
               }}>
-                You have {bankLabel} saved
+                {bankMs > 0 ? `${bankLabel} banked` : 'No time banked'}
               </div>
             </div>
           </div>
 
-          {/* Companion reaction */}
-          {reaction && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              style={{
-                textAlign:    'center',
-                marginBottom: 20,
-                fontWeight:   800,
-                fontSize:     16,
-                color:        COLORS.lavenderDark,
-              }}
-            >
-              {reaction}
-            </motion.div>
-          )}
-
-          {/* Action buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 380, margin: '0 auto' }}>
-            <button
-              onClick={handleSave}
-              style={{
-                padding:      '16px',
-                borderRadius: 16,
-                border:       'none',
-                background:   COLORS.lavender,
-                color:        COLORS.lavenderDark,
-                fontWeight:   800,
-                fontSize:     15,
-                cursor:       'pointer',
-              }}
-            >
-              💜 Save 15 minutes for later
-            </button>
-
-            <button
-              onClick={handleUseAll}
-              disabled={bankMs === 0}
-              style={{
-                padding:      '16px',
-                borderRadius: 16,
-                border:       'none',
-                background:   bankMs === 0 ? '#EDF2F7' : COLORS.peach,
-                color:        bankMs === 0 ? COLORS.muted : COLORS.peachDark,
-                fontWeight:   800,
-                fontSize:     15,
-                cursor:       bankMs === 0 ? 'default' : 'pointer',
-              }}
-            >
-              🍑 Use all today ({bankLabel})
-            </button>
-          </div>
-
           {/* Info note */}
           <div style={{
-            marginTop:    28,
             background:   COLORS.sky,
             borderRadius: 12,
-            padding:      '12px 16px',
-            fontSize:     13,
+            padding:      '14px 18px',
+            fontSize:     14,
             color:        COLORS.skyDark,
             maxWidth:     380,
-            margin:       '28px auto 0',
+            margin:       '0 auto',
+            textAlign:    'center',
+            lineHeight:   1.6,
           }}>
-            💡 Your saved time carries over through the week, up to{' '}
-            <strong>{Math.round(ceilingMs / 3_600_000)} hours</strong>.
+            💙 Ask a parent to add bonus time
+            <br />
+            <span style={{ fontSize: 12, opacity: 0.8 }}>
+              Parents can grant minutes from the Rules page.
+            </span>
           </div>
         </>
       )}
