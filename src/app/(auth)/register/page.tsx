@@ -62,7 +62,7 @@ function RegisterForm() {
         <CardContent>
           <h1 style={{
             fontSize: 22,
-            fontWeight: 800,
+            fontWeight: 700,
             color: COLORS.ink,
             marginBottom: 24,
             textAlign: 'center',
@@ -137,9 +137,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 const inputStyle: React.CSSProperties = {
-  padding: '10px 14px',
+  padding: '11px 14px',
   borderRadius: 12,
-  border: `1.5px solid ${COLORS.lavender}`,
+  border: `1.5px solid ${COLORS.border}`,
   fontSize: 15,
   fontFamily: "'Nunito', Arial, sans-serif",
   color: COLORS.ink,
@@ -147,6 +147,7 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
   width: '100%',
   boxSizing: 'border-box',
+  transition: 'border-color 0.15s',
 }
 
 export default function RegisterPage() {

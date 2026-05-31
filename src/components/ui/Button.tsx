@@ -45,9 +45,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles: Record<Variant, React.CSSProperties> = {
       primary: {
-        backgroundColor: theme.bg,
-        color: theme.text,
-        borderColor: theme.bg,
+        backgroundColor: theme.text,
+        color: '#ffffff',
+        borderColor: theme.text,
       },
       secondary: {
         backgroundColor: 'transparent',

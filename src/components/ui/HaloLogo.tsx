@@ -51,11 +51,11 @@ export default function HaloLogo({ fontSize = 40, className = '' }: HaloLogoProp
       <span
         style={{
           fontFamily: "'Nunito', Arial, sans-serif",
-          fontWeight: 800,
+          fontWeight: 600,
           fontSize: fontSize,
-          color: COLORS.lavenderDark,
+          color: COLORS.ink,
           lineHeight: 1,
-          letterSpacing: '-0.01em',
+          letterSpacing: '0.01em',
         }}
       >
         Halo

@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         alignItems: 'center',
         justifyContent: 'center',
         padding: '24px 16px',
-        backgroundColor: COLORS.cream,
+        background: `radial-gradient(ellipse at 60% 0%, ${COLORS.lavender} 0%, ${COLORS.cream} 55%)`,
       }}
     >
       {children}

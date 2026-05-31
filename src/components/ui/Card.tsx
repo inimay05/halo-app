@@ -30,7 +30,7 @@ export function Card({ variant = 'default', style, children, ...props }: CardPro
     },
     elevated: {
       backgroundColor: '#ffffff',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.07)',
+      boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
       border: 'none',
     },
   }
