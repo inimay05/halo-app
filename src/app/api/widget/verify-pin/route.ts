@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
   const { childId, pin } = await req.json() as { childId: string; pin: string }
@@ -9,7 +9,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 
-  const supabase = await createClient()
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )
 
   // Resolve child → parent → pin_hash
   const { data: child } = await supabase

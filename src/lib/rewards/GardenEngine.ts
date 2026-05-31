@@ -34,6 +34,7 @@ export class GardenEngine {
     const store = useGardenStore.getState()
     const prev  = store.health
     const next  = transform(prev)
+    const delta = +(next - prev).toFixed(2)
 
     useGardenStore.setState({ health: next })
 
@@ -48,6 +49,6 @@ export class GardenEngine {
     // Log for 7-day sparkline
     await supabase
       .from('garden_health_log')
-      .insert({ child_id: childId, health: next })
+      .insert({ child_id: childId, health: next, delta })
   }
 }

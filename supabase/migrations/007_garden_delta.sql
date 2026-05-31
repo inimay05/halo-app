@@ -1,0 +1,1 @@
+ALTER TABLE garden_health_log ADD COLUMN IF NOT EXISTS delta REAL;

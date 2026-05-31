@@ -31,7 +31,7 @@ function LoginForm() {
       return
     }
 
-    router.push('/parent/verify-pin')
+    router.push('/verify-pin')
     router.refresh()
   }
 

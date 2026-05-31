@@ -16,6 +16,7 @@ export interface ChildProfile {
   coin_balance: number
   garden_health: number
   weekly_bank_ms: number
+  last_seen_at?: string
   created_at: string
 }
 

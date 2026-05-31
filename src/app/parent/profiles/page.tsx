@@ -199,12 +199,12 @@ export default function ProfilesPage() {
               Age: <strong style={{ color: COLORS.skyDark }}>{age}</strong>
             </label>
             <input
-              type="range" min={1} max={17} value={age}
+              type="range" min={1} max={10} value={age}
               onChange={(e) => setAge(Number(e.target.value))}
               style={{ width: '100%', accentColor: COLORS.skyDark }}
             />
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: COLORS.muted, marginTop: 2 }}>
-              <span>1 (infant)</span><span>3–5 (preschool)</span><span>6–17 (schoolage)</span>
+              <span>1 (infant)</span><span>3–5 (preschool)</span><span>6–10 (schoolage)</span>
             </div>
           </div>
 

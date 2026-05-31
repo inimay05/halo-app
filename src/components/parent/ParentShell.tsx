@@ -152,7 +152,7 @@ export function ParentShell({ profiles, children }: Props) {
 
         {/* Footer */}
         <button
-          onClick={() => router.push('/logout')}
+          onClick={() => { window.location.href = '/logout' }}
           style={{
             background: 'none',
             border:     'none',

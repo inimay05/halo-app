@@ -20,5 +20,5 @@ export async function setupPinAction(pin: string) {
 
   if (error) throw new Error(error.message)
 
-  redirect('/parent/dashboard')
+  redirect('/parent')
 }

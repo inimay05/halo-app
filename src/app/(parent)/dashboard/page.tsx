@@ -7,7 +7,7 @@ import { COLORS }      from '@/config/tokens'
 type SyncStatus = 'online' | 'idle' | 'offline'
 
 function getSyncStatus(lastSeenMs: number | null): SyncStatus {
-  if (!lastSeenMs) return 'offline'
+  if (lastSeenMs === null) return 'offline'
   const ago = Date.now() - lastSeenMs
   if (ago < 30_000)  return 'online'
   if (ago < 120_000) return 'idle'
@@ -43,7 +43,7 @@ export default async function ParentDashboardPage() {
   // Fetch children with their most recent session event timestamp
   const { data: children } = await supabase
     .from('child_profiles')
-    .select('id, name, age_tier, active_companion, coin_balance, weekly_bank_ms')
+    .select('id, name, age_tier, active_companion, coin_balance, last_seen_at')
     .eq('parent_id', user.id)
     .order('created_at')
 
@@ -103,9 +103,8 @@ export default async function ParentDashboardPage() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {children.map((child) => {
-                // weekly_bank_ms is repurposed as last_seen until schema migration
-                const lastSeen = child.weekly_bank_ms
-                  ? Number(child.weekly_bank_ms)
+                const lastSeen = child.last_seen_at
+                  ? new Date(child.last_seen_at).getTime()
                   : null
                 const status   = getSyncStatus(lastSeen)
                 const dot      = STATUS_COLOUR[status]
