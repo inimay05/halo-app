@@ -19,7 +19,33 @@ export async function POST(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
 
-  const rows = events.map((e) => ({
+  // Verify childId references a real child profile before inserting events
+  const { data: childCheck, error: childCheckError } = await supabase
+    .from('child_profiles')
+    .select('id')
+    .eq('id', childId)
+    .single()
+
+  if (childCheckError || !childCheck) {
+    return NextResponse.json({ error: 'Invalid childId' }, { status: 403 })
+  }
+
+  // Allowlist of valid event_type values to prevent arbitrary data injection
+  const VALID_EVENT_TYPES = new Set([
+    'healthy', 'softWarning', 'passiveStare', 'autoplayTrap', 'nightRisk',
+    'sleepDetected', 'fullBlock', 'session_reset',
+    'break_completed', 'break_skipped', 'anticheat_break_skipped',
+    'anticheat_tamper_detected', 'anticheat_rapid_toggle',
+    'early_exit', 'stayed_off_30min', 'fastSwitch', 'night_champion',
+    'exercise_mission', 'voice_challenge',
+  ])
+
+  const validEvents = events.filter((e) => VALID_EVENT_TYPES.has(e.event_type))
+  if (validEvents.length === 0) {
+    return NextResponse.json({ error: 'No valid events' }, { status: 400 })
+  }
+
+  const rows = validEvents.map((e) => ({
     child_id:   childId,
     event_type: e.event_type,
     metadata:   e.metadata,

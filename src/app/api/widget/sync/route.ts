@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
   const profile = AGE_PROFILES[data.age_tier as AgeTier]
   const merged = {
-    fullBlockMs:          rules?.daily_limit_ms      ?? profile.fullBlockMs,
+    fullBlockMs:          rules?.full_block_ms        ?? profile.fullBlockMs,
     softWarningMs:        rules?.soft_warning_ms     ?? profile.softWarningMs,
     inactivityMs:         profile.inactivityMs,
     autoplayLimit:        rules?.autoplay_limit      ?? profile.autoplayLimit,
