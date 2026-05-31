@@ -217,7 +217,7 @@ export default function JourneyPage() {
           Earned
         </span>
         <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ width: 16, height: 16, borderRadius: '50%', background: '#E8E8EC', border: `2px solid #CBD5E0`, display: 'inline-block' }} />
+          <span style={{ width: 16, height: 16, borderRadius: '50%', background: COLORS.neutral, border: `2px solid ${COLORS.neutralDark}`, display: 'inline-block' }} />
           Coming soon
         </span>
       </div>

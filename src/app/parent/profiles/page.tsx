@@ -190,7 +190,7 @@ export default function ProfilesPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Emma"
-              style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: '1.5px solid #E2E8F0', fontSize: 14, boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '9px 12px', borderRadius: 8, border: `1.5px solid ${COLORS.border}`, fontSize: 14, boxSizing: 'border-box' }}
             />
           </div>
 

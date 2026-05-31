@@ -117,7 +117,7 @@ function ItemCard({ item, owned, balance, onTap, onBuy }: CardProps) {
           <div style={{
             height:       5,
             borderRadius: 4,
-            background:   '#E8E8EC',
+            background:   COLORS.neutral,
             overflow:     'hidden',
           }}>
             <div style={{

@@ -112,7 +112,7 @@ export function ChildShell({ profile, children }: Props) {
       display:    'flex',
       flexDirection: 'column',
       minHeight:  '100dvh',
-      background: '#F4F0FC',
+      background: COLORS.lavender,
       fontFamily: 'var(--font-nunito), sans-serif',
     }}>
       {/* ── Engagement engine (singleton) ── */}

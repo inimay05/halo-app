@@ -123,7 +123,7 @@ function PinUnlock({ onSuccess }: { onSuccess: () => void }) {
               height: 44,
               borderRadius: 10,
               border: 'none',
-              background: k === '' ? 'transparent' : '#F7FAFC',
+              background: k === '' ? 'transparent' : COLORS.surface,
               fontSize: 17,
               fontWeight: 600,
               color: COLORS.ink,
@@ -135,7 +135,7 @@ function PinUnlock({ onSuccess }: { onSuccess: () => void }) {
           </button>
         ))}
       </div>
-      {error && <p style={{ margin: 0, fontSize: 13, color: '#E53E3E' }}>Incorrect PIN</p>}
+      {error && <p style={{ margin: 0, fontSize: 13, color: COLORS.roseDark }}>Incorrect PIN</p>}
     </motion.div>
   )
 }

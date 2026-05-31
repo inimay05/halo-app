@@ -132,7 +132,7 @@ export default function GardenPage() {
                 />
                 <Bar dataKey="health" name="Health" radius={[6, 6, 0, 0]} maxBarSize={40}>
                   {history.map((d, i) => (
-                    <Cell key={i} fill={d.health > 0 ? healthColor(d.health) : '#E2E8F0'} fillOpacity={0.85} />
+                    <Cell key={i} fill={d.health > 0 ? healthColor(d.health) : COLORS.border} fillOpacity={0.85} />
                   ))}
                 </Bar>
               </BarChart>

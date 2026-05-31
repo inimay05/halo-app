@@ -132,7 +132,7 @@ function BadgeCell({
           height:       72,
           borderRadius: 18,
           border:       'none',
-          background:   earned ? meta.color : '#E8E8EC',
+          background:   earned ? meta.color : COLORS.neutral,
           cursor:       earned ? 'pointer' : 'default',
           display:      'flex',
           alignItems:   'center',

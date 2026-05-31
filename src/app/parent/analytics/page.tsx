@@ -217,11 +217,11 @@ export default function AnalyticsPage() {
                     const total = domains.reduce((s, r) => s + r.totalMs, 0)
                     const pct   = total > 0 ? (row.totalMs / total) * 100 : 0
                     return (
-                      <tr key={row.domain} style={{ borderBottom: `1px solid #F0F4F8` }}>
+                      <tr key={row.domain} style={{ borderBottom: `1px solid ${COLORS.surface}` }}>
                         <td style={{ padding: '8px 8px', color: COLORS.ink, fontWeight: 600 }}>{row.domain}</td>
                         <td style={{ padding: '8px 8px', textAlign: 'right', color: COLORS.muted }}>{fmtTime(row.totalMs)}</td>
                         <td style={{ padding: '8px 8px', textAlign: 'right' }}>
-                          <div style={{ background: '#EEF2F6', borderRadius: 4, height: 8, overflow: 'hidden' }}>
+                          <div style={{ background: COLORS.sky, borderRadius: 4, height: 8, overflow: 'hidden' }}>
                             <div style={{ width: `${pct}%`, height: '100%', background: COLORS.skyDark, borderRadius: 4 }} />
                           </div>
                         </td>

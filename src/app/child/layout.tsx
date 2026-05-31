@@ -2,6 +2,7 @@ import { Nunito }        from 'next/font/google'
 import { cookies }       from 'next/headers'
 import { createClient }  from '@/lib/supabase/server'
 import { ChildShell }    from '@/components/child/ChildShell'
+import { COLORS }        from '@/config/tokens'
 import type { ChildProfile } from '@/types/database'
 import type { Metadata } from 'next'
 
@@ -58,7 +59,7 @@ export default async function ChildLayout({ children }: { children: React.ReactN
   if (!profile) {
     return (
       <div className={nunito.variable} style={{ fontFamily: 'var(--font-nunito), sans-serif' }}>
-        <div style={{ textAlign: 'center', marginTop: 80, color: '#6B6B80', fontSize: 18 }}>
+        <div style={{ textAlign: 'center', marginTop: 80, color: COLORS.muted, fontSize: 18 }}>
           No child profile found.
         </div>
       </div>

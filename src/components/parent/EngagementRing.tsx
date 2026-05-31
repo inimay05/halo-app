@@ -20,7 +20,7 @@ export function EngagementRing({ score, size = 160 }: Props) {
         <circle
           cx={60} cy={60} r={50}
           fill="none"
-          stroke="#E8E8EC"
+          stroke={COLORS.neutral}
           strokeWidth={11}
         />
         {/* Score arc */}
