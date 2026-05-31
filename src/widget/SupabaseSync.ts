@@ -21,11 +21,16 @@ export class SupabaseSync {
   private backoffMs                      = SYNC_INTERVAL_MS
   private syncInterval: ReturnType<typeof setInterval> | null = null
   private lastRulesJson                  = ''
+  private onRulesChange: ((rules: DetectionRules) => void) | null = null
 
   constructor(
     private readonly childId: string,
     private readonly baseUrl: string,
   ) {}
+
+  setOnRulesChange(cb: (rules: DetectionRules) => void): void {
+    this.onRulesChange = cb
+  }
 
   // ── init ──────────────────────────────────────────────────────────
   async init(): Promise<ChildConfig | null> {
@@ -87,22 +92,22 @@ export class SupabaseSync {
     }
   }
 
-  async fetchRules(): Promise<DetectionRules | null> {
+  // fetchRules is called only by tick() — widget.ts must NOT call it separately.
+  // Use setOnRulesChange() to receive rule updates instead.
+  private async fetchRules(): Promise<void> {
     try {
       const res = await fetch(
         `${this.baseUrl}/api/widget/sync?childId=${encodeURIComponent(this.childId)}`
       )
-      if (!res.ok) return null
+      if (!res.ok) return
       const config = await res.json() as ChildConfig
       const json = JSON.stringify(config.rules)
-      // Only return if rules changed
       if (json !== this.lastRulesJson) {
         this.lastRulesJson = json
-        return config.rules
+        this.onRulesChange?.(config.rules)
       }
-      return null
     } catch {
-      return null
+      // silent — next tick will retry
     }
   }
 

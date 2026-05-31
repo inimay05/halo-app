@@ -51,6 +51,8 @@ import { SupabaseSync }     from './SupabaseSync'
     companion.setCompanion(config.active_companion)
     companion.setLimitMs(config.limitMs)
     detection.applyRules(config.rules)
+    // SupabaseSync owns all rule polling — push changes to detection here
+    sync.setOnRulesChange((rules) => detection.applyRules(rules))
     detection.start()
 
     // ── main 5-second loop ─────────────────────────────────────────
@@ -70,10 +72,7 @@ import { SupabaseSync }     from './SupabaseSync'
         metadata:   state as unknown as Record<string, unknown>,
       })
 
-      // Pull rule changes (SupabaseSync deduplicates unchanged responses)
-      sync.fetchRules().then((rules) => {
-        if (rules) detection.applyRules(rules)
-      })
+      // Rule updates are handled by SupabaseSync.tick() via onRulesChange callback
     }, 5_000)
   })
 })()
