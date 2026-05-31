@@ -9,6 +9,8 @@ export const COLORS = {
   warmAmber:   '#FEF3C7',  amberDark:     '#D97706',
   cream:       '#FAFAF2',  ink:           '#2D2D3A',
   muted:       '#6B6B80',
+  neutral:     '#E8E8EC',  neutralDark:   '#CBD5E0',
+  surface:     '#F4F8FC',  border:        '#E2E8F0',
   haloGold:    '#F0C040',  haloGoldDark:  '#D4A017',
 }
 

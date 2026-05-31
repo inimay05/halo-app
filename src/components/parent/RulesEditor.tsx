@@ -109,7 +109,7 @@ function ChipInput({
           onChange={(e) => setInput(e.target.value)}
           placeholder={placeholder ?? 'example.com'}
           onKeyDown={(e) => e.key === 'Enter' && add()}
-          style={{ flex: 1, padding: '7px 12px', borderRadius: 8, border: '1.5px solid #E2E8F0', fontSize: 14 }}
+          style={{ flex: 1, padding: '7px 12px', borderRadius: 8, border: `1.5px solid ${COLORS.border}`, fontSize: 14 }}
         />
         <button onClick={add} style={{
           padding: '7px 14px', borderRadius: 8, border: 'none',

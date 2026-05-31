@@ -100,7 +100,7 @@ export function ParentShell({ profiles, children }: Props) {
   }, [profiles, setChildProfiles])
 
   return (
-    <div style={{ display: 'flex', minHeight: '100dvh', background: '#F4F8FC' }}>
+    <div style={{ display: 'flex', minHeight: '100dvh', background: COLORS.surface }}>
       {/* Sidebar */}
       <aside style={{
         width:            SIDEBAR_W,
