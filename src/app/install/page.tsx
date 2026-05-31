@@ -58,7 +58,7 @@ function SnippetBox({ childId }: { childId: string }) {
     <div style={{ position: 'relative' }}>
       <pre style={{
         background:   COLORS.ink,
-        color:        '#E8E0F7',
+        color:        COLORS.lavender,
         borderRadius: 12,
         padding:      '20px 24px',
         fontSize:     12,
@@ -100,7 +100,7 @@ export default function InstallPage() {
   return (
     <main style={{
       minHeight:   '100dvh',
-      background:  '#FAFAF2',
+      background:  COLORS.cream,
       padding:     '48px 24px',
       fontFamily:  "'Nunito', Arial, sans-serif",
       color:       COLORS.ink,

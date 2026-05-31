@@ -104,8 +104,8 @@ function PinUnlock({ onSuccess }: { onSuccess: () => void }) {
             style={{
               width: 16, height: 16,
               borderRadius: '50%',
-              background: error ? '#E53E3E' : digits[i] !== undefined ? COLORS.haloGold : '#E2E8F0',
-              border: `2px solid ${error ? '#E53E3E' : COLORS.muted}`,
+              background: error ? COLORS.roseDark : digits[i] !== undefined ? COLORS.haloGold : COLORS.border,
+              border: `2px solid ${error ? COLORS.roseDark : COLORS.muted}`,
               transition: 'background 0.2s',
             }}
           />

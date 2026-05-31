@@ -59,7 +59,7 @@ function Toggle({
         onClick={() => onChange(!checked)}
         style={{
           width: 44, height: 24, borderRadius: 12, border: 'none',
-          background: checked ? COLORS.skyDark : '#CBD5E0',
+          background: checked ? COLORS.skyDark : COLORS.neutralDark,
           position: 'relative', cursor: 'pointer', transition: 'background 0.2s', flexShrink: 0,
         }}
       >

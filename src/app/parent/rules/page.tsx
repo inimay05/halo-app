@@ -84,7 +84,7 @@ function GrantTimeBankPanel({ childId }: { childId: string }) {
       {message && (
         <div style={{
           marginTop: 12, padding: '9px 14px', borderRadius: 8,
-          background: message.startsWith('✓') ? '#ECFDF5' : COLORS.rose,
+          background: message.startsWith('✓') ? COLORS.sage : COLORS.rose,
           color: message.startsWith('✓') ? COLORS.sageDark : COLORS.roseDark,
           fontSize: 13, fontWeight: 700,
         }}>

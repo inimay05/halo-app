@@ -13,7 +13,7 @@ const VARIANT_STYLES: Record<BadgeVariant, { bg: string; text: string; icon?: st
   success: { bg: COLORS.sage,      text: COLORS.sageDark },
   warning: { bg: COLORS.warmAmber, text: COLORS.amberDark },
   info:    { bg: COLORS.sky,       text: COLORS.skyDark },
-  muted:   { bg: '#EDEDF2',        text: COLORS.muted },
+  muted:   { bg: COLORS.neutral,   text: COLORS.muted },
   coin:    { bg: COLORS.lemon,     text: COLORS.lemonDark, icon: '🪙' },
   streak:  { bg: COLORS.peach,     text: COLORS.peachDark, icon: '🔥' },
 }

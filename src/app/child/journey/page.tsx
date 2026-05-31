@@ -92,8 +92,8 @@ function MilestoneNode({
       {/* Circle */}
       <circle
         cx={cx} cy={cy} r={R}
-        fill={earned ? meta.color : '#E8E8EC'}
-        stroke={earned ? 'white' : '#CBD5E0'}
+        fill={earned ? meta.color : COLORS.neutral}
+        stroke={earned ? 'white' : COLORS.neutralDark}
         strokeWidth={3}
       />
       {/* Icon */}
@@ -238,7 +238,7 @@ export default function JourneyPage() {
                   display:      'flex',
                   alignItems:   'center',
                   gap:          14,
-                  background:   earned ? meta.color : '#F5F5F8',
+                  background:   earned ? meta.color : COLORS.neutral,
                   borderRadius: 14,
                   padding:      '12px 16px',
                   opacity:      earned ? 1 : 0.6,

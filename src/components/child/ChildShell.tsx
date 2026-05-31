@@ -204,7 +204,7 @@ export function ChildShell({ profile, children }: Props) {
                   onClick={() => setShowSheet(false)}
                   style={{
                     flex: 1, padding: '14px', borderRadius: 14, border: 'none',
-                    background: '#F0F4F8', color: COLORS.ink,
+                    background: COLORS.surface, color: COLORS.ink,
                     fontWeight: 700, fontSize: 15, cursor: 'pointer',
                   }}
                 >

@@ -146,7 +146,7 @@ function ItemCard({ item, owned, balance, onTap, onBuy }: CardProps) {
             padding:      '6px 14px',
             borderRadius: 20,
             border:       'none',
-            background:   canAfford ? COLORS.lemon : '#E8E8EC',
+            background:   canAfford ? COLORS.lemon : COLORS.neutral,
             color:        canAfford ? COLORS.lemonDark : COLORS.muted,
             fontWeight:   700,
             fontSize:     13,
