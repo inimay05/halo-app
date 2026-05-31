@@ -163,9 +163,11 @@ export function RulesEditor({ childId, ageTier }: Props) {
     time_banking_enabled:    true,
     weekly_bank_ceiling_ms:  7_200_000,
     voice_challenge_enabled: false,
+    day_overrides:           {},
   })
 
   const [weekendEnabled, setWeekendEnabled] = useState(false)
+  const [perDayEnabled,  setPerDayEnabled]  = useState(false)
   const [companion, setCompanion]           = useState<CharacterType>('cat')
   const [saving, setSaving]                 = useState(false)
   const [saved, setSaved]                   = useState(false)
@@ -191,8 +193,10 @@ export function RulesEditor({ childId, ageTier }: Props) {
           time_banking_enabled:    data.time_banking_enabled ?? true,
           weekly_bank_ceiling_ms:  data.weekly_bank_ceiling_ms ?? 7_200_000,
           voice_challenge_enabled: data.voice_challenge_enabled ?? false,
+          day_overrides:           (data.day_overrides as Record<string, number>) ?? {},
         })
         setWeekendEnabled(!!data.weekend_soft_ms)
+        setPerDayEnabled(Object.keys(data.day_overrides ?? {}).length > 0)
       })
     supabase.from('child_profiles').select('active_companion').eq('id', childId).single()
       .then(({ data }) => { if (data?.active_companion) setCompanion(data.active_companion as CharacterType) })
@@ -251,6 +255,35 @@ export function RulesEditor({ childId, ageTier }: Props) {
             <RulesSlider label="Weekend warning"   value={rules.weekend_soft_ms ?? rules.soft_warning_ms!} min={min2ms(5)}  max={min2ms(180)} step={min2ms(5)} format={fmtMin} onChange={(v) => set('weekend_soft_ms', v)} />
             <RulesSlider label="Weekend limit"     value={rules.weekend_full_ms ?? rules.full_block_ms!}   min={min2ms(10)} max={min2ms(240)} step={min2ms(5)} format={fmtMin} onChange={(v) => set('weekend_full_ms', v)} />
           </>
+        )}
+      </div>
+
+      {/* Per-day limits */}
+      <div style={CARD}>
+        <Toggle label="Per-day Limits" sublabel="Override the daily limit for individual days" checked={perDayEnabled} onChange={(v) => {
+          setPerDayEnabled(v)
+          if (!v) set('day_overrides', {})
+        }} />
+        {perDayEnabled && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            {(['mon','tue','wed','thu','fri','sat','sun'] as const).map((day) => {
+              const LABELS: Record<string, string> = { mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun' }
+              const val = rules.day_overrides[day] ?? rules.full_block_ms!
+              return (
+                <div key={day} style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
+                  <span style={{ width: 32, fontWeight: 700, fontSize: 13, color: COLORS.ink }}>{LABELS[day]}</span>
+                  <input
+                    type="range"
+                    min={min2ms(10)} max={min2ms(240)} step={min2ms(5)}
+                    value={val}
+                    onChange={(e) => set('day_overrides', { ...rules.day_overrides, [day]: Number(e.target.value) })}
+                    style={{ flex: 1, accentColor: COLORS.skyDark }}
+                  />
+                  <span style={{ width: 52, fontSize: 13, fontWeight: 700, color: COLORS.skyDark, textAlign: 'right' }}>{fmtMin(val)}</span>
+                </div>
+              )
+            })}
+          </div>
         )}
       </div>
 

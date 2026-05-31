@@ -18,6 +18,7 @@ export interface ParentRulesPayload {
   time_banking_enabled:    boolean
   weekly_bank_ceiling_ms:  number
   voice_challenge_enabled: boolean
+  day_overrides:           Record<string, number>
 }
 
 export async function grantTimeBankAction(

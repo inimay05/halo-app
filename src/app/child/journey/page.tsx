@@ -18,12 +18,12 @@ interface MilestoneMeta {
 }
 
 const MILESTONES: MilestoneMeta[] = [
-  { type: 'first_break',        name: 'First Break!',      description: 'You took your very first screen break.',      icon: '🌟', color: COLORS.lemon    },
-  { type: 'week_streak',        name: 'Week Warrior',      description: 'You took a break every day for 7 days!',      icon: '🔥', color: COLORS.peach    },
-  { type: 'hero_exit_5',        name: 'Screen-Time Hero',  description: 'You chose to finish early 5 times!',          icon: '🦸', color: COLORS.lavender },
-  { type: 'garden_bloom',       name: 'Green Thumb',       description: 'Your garden grew all the way to full bloom!', icon: '🌸', color: COLORS.mint     },
-  { type: 'night_champion_7',   name: 'Night Champion',    description: 'You kept healthy habits at night × 7.',       icon: '🌙', color: COLORS.sky      },
-  { type: 'mission_explorer_10',name: 'Mission Explorer',  description: 'You finished 10 missions!',                   icon: '🚀', color: COLORS.sage     },
+  { type: 'first_break',      name: 'First Break!',    description: 'You took your very first screen break.',      icon: '🌟', color: COLORS.lemon    },
+  { type: 'week_streak',      name: 'Week Warrior',    description: 'You took a break every day for 7 days!',      icon: '🔥', color: COLORS.peach    },
+  { type: 'fifty_coins',      name: 'Coin Collector',  description: 'You saved up 50 coins!',                      icon: '🪙', color: COLORS.lemon    },
+  { type: 'night_champion_7', name: 'Night Champion',  description: 'You kept healthy habits at night × 7.',       icon: '🌙', color: COLORS.sky      },
+  { type: 'voice_hero',       name: 'Voice Hero',      description: 'You completed a voice challenge!',            icon: '🎤', color: COLORS.lavender },
+  { type: 'garden_bloom',     name: 'Green Thumb',     description: 'Your garden grew all the way to full bloom!', icon: '🌸', color: COLORS.mint     },
 ]
 
 // ─── SVG path layout ──────────────────────────────────────────────────────────

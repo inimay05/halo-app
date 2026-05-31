@@ -27,15 +27,22 @@ export async function GET(req: NextRequest) {
     .single()
 
   const profile = AGE_PROFILES[data.age_tier as AgeTier]
+
+  // Per-day override: day_overrides[today] > global full_block_ms > age profile default
+  const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'] as const
+  const todayKey = DAY_KEYS[new Date().getDay()]
+  const dayOverrides = (rules?.day_overrides ?? {}) as Record<string, number>
+  const todayFullBlockMs = dayOverrides[todayKey] ?? rules?.full_block_ms ?? profile.fullBlockMs
+
   const merged = {
-    fullBlockMs:          rules?.full_block_ms        ?? profile.fullBlockMs,
-    softWarningMs:        rules?.soft_warning_ms     ?? profile.softWarningMs,
-    inactivityMs:         profile.inactivityMs,
-    autoplayLimit:        rules?.autoplay_limit      ?? profile.autoplayLimit,
-    videoChainMaxMs:      profile.videoChainMaxMs,
-    nightStartHour:       rules?.night_start_hour    ?? profile.nightStartHour,
-    nightMultiplier:      profile.nightMultiplier,
-    timeBankEnabled:      rules?.time_banking_enabled ?? false,
+    fullBlockMs:           todayFullBlockMs,
+    softWarningMs:         rules?.soft_warning_ms     ?? profile.softWarningMs,
+    inactivityMs:          profile.inactivityMs,
+    autoplayLimit:         rules?.autoplay_limit      ?? profile.autoplayLimit,
+    videoChainMaxMs:       profile.videoChainMaxMs,
+    nightStartHour:        rules?.night_start_hour    ?? profile.nightStartHour,
+    nightMultiplier:       profile.nightMultiplier,
+    timeBankEnabled:       rules?.time_banking_enabled ?? false,
     voiceChallengeEnabled: rules?.voice_challenge_enabled ?? true,
   }
 
