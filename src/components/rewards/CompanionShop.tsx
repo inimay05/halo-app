@@ -96,7 +96,15 @@ function ItemCard({ item, owned, balance, onTap, onBuy }: CardProps) {
         }}>Owned</span>
       )}
 
-      <div style={{ fontSize: 36, lineHeight: 1, marginBottom: 8 }}>
+      <div style={{
+        fontSize:   36,
+        lineHeight: 1,
+        marginBottom: 8,
+        filter:     !owned && (item.id === 'unlock_dino' || item.id === 'unlock_seal')
+          ? 'grayscale(1) opacity(0.4)'
+          : undefined,
+        transition: 'filter 0.3s',
+      }}>
         {item.icon}
       </div>
       <p style={{ margin: '0 0 6px', fontWeight: 700, fontSize: 13, color: COLORS.ink }}>
@@ -154,8 +162,9 @@ function ItemCard({ item, owned, balance, onTap, onBuy }: CardProps) {
 
 // ─── Preview panel ─────────────────────────────────────────────────────────────
 
-function PreviewPanel({ item, character }: { item: ShopItem; character: CharacterType }) {
-  const previewChar = item.preview ?? character
+function PreviewPanel({ item, character, owned }: { item: ShopItem; character: CharacterType; owned: boolean }) {
+  const previewChar  = item.preview ?? character
+  const isLocked     = !owned && (item.id === 'unlock_dino' || item.id === 'unlock_seal')
   return (
     <motion.div
       key={item.id}
@@ -170,7 +179,7 @@ function PreviewPanel({ item, character }: { item: ShopItem; character: Characte
         padding:        '12px 0',
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', filter: isLocked ? 'grayscale(1) opacity(0.45)' : undefined, transition: 'filter 0.3s' }}>
         <CompanionCharacter character={previewChar} pose="happy" size={100} />
         <span style={{
           position:   'absolute',
@@ -344,7 +353,7 @@ export function CompanionShop({ childId }: Props) {
         </div>
         <AnimatePresence mode="wait">
           {previewing ? (
-            <PreviewPanel key={previewing.id} item={previewing} character={character} />
+            <PreviewPanel key={previewing.id} item={previewing} character={character} owned={owned.has(previewing.id)} />
           ) : (
             <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <CompanionCharacter character={character} pose="idle" size={72} />
