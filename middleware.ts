@@ -27,6 +27,16 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const verified = request.cookies.get('parent_verified')?.value === '1'
 
+  // ── /dashboard (legacy route group) requires session + verified PIN ──
+  if (pathname === '/dashboard') {
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    if (!verified) {
+      return NextResponse.redirect(new URL('/verify-pin', request.url))
+    }
+  }
+
   // ── /parent/* requires session + verified PIN ──
   if (pathname.startsWith('/parent')) {
     if (!user) {
