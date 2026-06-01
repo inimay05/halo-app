@@ -3,7 +3,6 @@
 import { useState, useTransition } from 'react'
 import { useProfileStore }          from '@/store/profileStore'
 import { CompanionCharacter }       from '@/components/companion/CompanionCharacter'
-import type { CharacterType }       from '@/components/companion/CompanionCharacter'
 import {
   addChildAction,
   deleteChildAction,
@@ -15,33 +14,6 @@ import { useRouter }         from 'next/navigation'
 const CARD: React.CSSProperties = {
   background: 'white', borderRadius: 16, padding: '20px 22px',
   boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-}
-
-const COMPANIONS: CharacterType[] = ['cat', 'dog', 'dino', 'seal']
-
-function CompanionPicker({
-  value, onChange,
-}: { value: CharacterType; onChange: (c: CharacterType) => void }) {
-  return (
-    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      {COMPANIONS.map((c) => (
-        <button
-          key={c}
-          type="button"
-          onClick={() => onChange(c)}
-          style={{
-            background:   value === c ? COLORS.sky : 'transparent',
-            border:       value === c ? `2px solid ${COLORS.skyDark}` : '2px solid #E2E8F0',
-            borderRadius: 12, padding: 8, cursor: 'pointer',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-          }}
-        >
-          <CompanionCharacter character={c} pose={value === c ? 'happy' : 'idle'} size={52} />
-          <span style={{ fontSize: 11, fontWeight: 700, color: COLORS.skyDark, textTransform: 'capitalize' }}>{c}</span>
-        </button>
-      ))}
-    </div>
-  )
 }
 
 function ProfileCard({
@@ -122,28 +94,25 @@ export default function ProfilesPage() {
   const { activeChildId, setActiveChild, childProfiles } = useProfileStore()
   const router = useRouter()
 
-  // Add form
-  const [showAdd,    setShowAdd]    = useState(false)
-  const [name,       setName]       = useState('')
-  const [age,        setAge]        = useState<number>(8)
-  const [companion,  setCompanion]  = useState<CharacterType>('cat')
-  const [error,      setError]      = useState<string | null>(null)
-  const [pending,    startTransition] = useTransition()
+  const [showAdd,  setShowAdd]  = useState(false)
+  const [name,     setName]     = useState('')
+  const [age,      setAge]      = useState<number>(8)
+  const [error,    setError]    = useState<string | null>(null)
+  const [pending,  startTransition] = useTransition()
 
   const handleAdd = () => {
     setError(null)
     const fd = new FormData()
-    fd.append('name',      name)
-    fd.append('age',       String(age))
-    fd.append('companion', companion)
+    fd.append('name', name)
+    fd.append('age',  String(age))
+    // Default companion is cat — child can change it in the shop
+    fd.append('companion', 'cat')
     startTransition(async () => {
       const res = await addChildAction(fd)
       if (!res.ok) { setError(res.error ?? 'Unknown error'); return }
       setShowAdd(false)
       setName('')
       setAge(8)
-      setCompanion('cat')
-      // Refresh page to re-run server layout and update store
       router.refresh()
     })
   }
@@ -177,7 +146,6 @@ export default function ProfilesPage() {
         </div>
       )}
 
-      {/* Add form */}
       {showAdd && (
         <div style={{ ...CARD, marginBottom: 24 }}>
           <span style={{ display: 'block', fontWeight: 800, fontSize: 15, color: COLORS.skyDark, marginBottom: 16 }}>
@@ -194,7 +162,7 @@ export default function ProfilesPage() {
             />
           </div>
 
-          <div style={{ marginBottom: 14 }}>
+          <div style={{ marginBottom: 18 }}>
             <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: COLORS.ink, marginBottom: 6 }}>
               Age: <strong style={{ color: COLORS.skyDark }}>{age}</strong>
             </label>
@@ -208,9 +176,8 @@ export default function ProfilesPage() {
             </div>
           </div>
 
-          <div style={{ marginBottom: 18 }}>
-            <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: COLORS.ink, marginBottom: 10 }}>Companion</label>
-            <CompanionPicker value={companion} onChange={setCompanion} />
+          <div style={{ background: COLORS.lavender, borderRadius: 10, padding: '10px 14px', fontSize: 13, color: COLORS.lavenderDark, fontWeight: 600, marginBottom: 16 }}>
+            🐱 Your child will start with a cat companion. They can unlock more in the shop!
           </div>
 
           {error && (
@@ -234,7 +201,6 @@ export default function ProfilesPage() {
         </div>
       )}
 
-      {/* Profile list */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {childProfiles.length === 0 ? (
           <div style={{ color: COLORS.muted, fontSize: 14, textAlign: 'center', marginTop: 40 }}>
