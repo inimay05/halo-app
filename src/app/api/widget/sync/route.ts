@@ -42,6 +42,7 @@ export async function GET(req: NextRequest) {
     videoChainMaxMs:       profile.videoChainMaxMs,
     nightStartHour:        rules?.night_start_hour    ?? profile.nightStartHour,
     nightMultiplier:       profile.nightMultiplier,
+    ageTier:               data.age_tier,
     timeBankEnabled:       rules?.time_banking_enabled ?? false,
     voiceChallengeEnabled: rules?.voice_challenge_enabled ?? true,
   }

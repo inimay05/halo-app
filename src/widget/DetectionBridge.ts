@@ -15,6 +15,7 @@ export interface DetectionRules {
   videoChainMaxMs: number
   nightStartHour: number
   nightMultiplier: number
+  ageTier: string
 }
 
 const SLEEP_AUTOLOCK_MS = 10 * 60 * 1000
@@ -39,6 +40,7 @@ export class DetectionBridge {
     videoChainMaxMs: 30 * 60 * 1000,
     nightStartHour:  21,
     nightMultiplier: 1.5,
+    ageTier:         'schoolage',
   }
 
   // ── event handlers ────────────────────────────────────────────────
@@ -112,8 +114,9 @@ export class DetectionBridge {
         type = 'nightRisk'
       }
     } else {
-      if      (inactivityMs > SLEEP_AUTOLOCK_MS)     type = 'sleepDetected'
-      else if (inactivityMs > this.rules.inactivityMs) type = 'passiveStare'
+      const checkInactivity = this.rules.ageTier !== 'infant'
+      if      (checkInactivity && inactivityMs > SLEEP_AUTOLOCK_MS)      type = 'sleepDetected'
+      else if (checkInactivity && inactivityMs > this.rules.inactivityMs) type = 'passiveStare'
       else if (sessionMs > effectiveFull)             type = 'fullBlock'
       else if (sessionMs > effectiveSoft)             type = 'softWarning'
       else if (nightMultiplier > 1 && sessionMs > effectiveFull * 0.5) type = 'nightRisk'

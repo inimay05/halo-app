@@ -39,7 +39,9 @@ export class EngagementEngine {
   ) {}
 
   start(): void {
-    this.inactivity.start()
+    // Infants don't interact with the device themselves — the parent does.
+    // Passive-stare detection is meaningless and would fire constantly.
+    if (this.profile.ageTier !== 'infant') this.inactivity.start()
     this.session.start()
     this.video.start()
     document.addEventListener('visibilitychange', this.visibilityHandler)
@@ -103,9 +105,10 @@ export class EngagementEngine {
       }
     } else {
       // Interactive session
-      if (inactivityMs > SLEEP_AUTOLOCK_MS) {
+      const checkInactivity = this.profile.ageTier !== 'infant'
+      if (checkInactivity && inactivityMs > SLEEP_AUTOLOCK_MS) {
         next = { type: 'sleepDetected' }
-      } else if (inactivityMs > this.profile.inactivityMs) {
+      } else if (checkInactivity && inactivityMs > this.profile.inactivityMs) {
         next = { type: 'passiveStare', inactivityMs }
       } else if (sessionMs > effectiveFullBlock) {
         next = { type: 'fullBlock', reason: 'time_limit' }
