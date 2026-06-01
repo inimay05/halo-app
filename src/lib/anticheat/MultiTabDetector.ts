@@ -1,10 +1,14 @@
 import type { AntiCheatEngine } from './AntiCheatEngine'
 
 const CHANNEL_NAME = 'halo-session'
+const TAB_ID       = typeof crypto !== 'undefined'
+  ? crypto.randomUUID()
+  : Math.random().toString(36).slice(2)
 
 interface SessionMessage {
   type:    'session_start'
   childId: string
+  tabId:   string
   ts:      number
 }
 
@@ -18,11 +22,11 @@ export class MultiTabDetector {
 
     this.channel = new BroadcastChannel(CHANNEL_NAME)
 
+    // Start listening BEFORE posting so we don't miss responses,
+    // but ignore messages from this same tab.
     this.channel.onmessage = (evt: MessageEvent<SessionMessage>) => {
-      const { type, childId } = evt.data
-      if (type === 'session_start' && childId === this.childId) {
-        // Another tab is attempting to start a session for the same child.
-        // Fire a window event so the React layer can show a blocking overlay.
+      const { type, childId, tabId } = evt.data
+      if (type === 'session_start' && childId === this.childId && tabId !== TAB_ID) {
         window.dispatchEvent(new CustomEvent('halo-multitab-conflict'))
         void this.engine.logEvent('MultiTabConflict', {
           childId,
@@ -31,12 +35,15 @@ export class MultiTabDetector {
       }
     }
 
-    // Announce this tab's session so any already-open tab can detect the conflict.
-    this.channel.postMessage({
-      type:    'session_start',
-      childId: this.childId,
-      ts:      Date.now(),
-    } satisfies SessionMessage)
+    // Small delay so we don't react to our own echo in the same tick
+    setTimeout(() => {
+      this.channel?.postMessage({
+        type:    'session_start',
+        childId: this.childId,
+        tabId:   TAB_ID,
+        ts:      Date.now(),
+      } satisfies SessionMessage)
+    }, 80)
   }
 
   destroy(): void {
