@@ -30,7 +30,6 @@ const NAV = [
   { href: '/child',         icon: '🏠', label: 'Dashboard' },
   { href: '/child/journey', icon: '🗺️', label: 'Journey'   },
   { href: '/child/shop',    icon: '🛍️', label: 'Shop'      },
-  { href: '/child/bank',    icon: '🏦', label: 'Bank'      },
 ]
 
 const TIER_LABEL: Record<string, string> = {
