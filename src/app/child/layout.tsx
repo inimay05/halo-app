@@ -36,7 +36,7 @@ export default async function ChildLayout({ children }: { children: React.ReactN
     }
 
     if (!profile) {
-      // Fall back to first child and set the cookie
+      // Fall back to first child (cookie will be set when parent navigates properly)
       const { data } = await supabase
         .from('child_profiles')
         .select('*')
@@ -45,14 +45,6 @@ export default async function ChildLayout({ children }: { children: React.ReactN
         .limit(1)
         .single()
       profile = (data as ChildProfile) ?? null
-
-      if (profile) {
-        cookieStore.set('active_child_id', profile.id, {
-          httpOnly: true,
-          path:     '/',
-          maxAge:   24 * 60 * 60,
-        })
-      }
     }
   }
 

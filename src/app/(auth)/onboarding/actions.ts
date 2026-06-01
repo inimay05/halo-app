@@ -33,21 +33,37 @@ export async function completeOnboardingAction(
   if (profErr) return { ok: false, error: profErr.message }
 
   // 2. Create child profile
-  const { error: childErr } = await supabase.from('child_profiles').insert({
-    parent_id:        user.id,
-    name:             payload.childName,
-    age_years:        payload.ageYears,
-    age_tier:         ageTier,
-    active_companion: payload.companion,
-    companion_name:   payload.companionName || null,
-    coin_balance:     0,
-    garden_health:    1.0,
-    weekly_bank_ms:   0,
-  })
+  const { data: childData, error: childErr } = await supabase
+    .from('child_profiles')
+    .insert({
+      parent_id:        user.id,
+      name:             payload.childName,
+      age_years:        payload.ageYears,
+      age_tier:         ageTier,
+      active_companion: payload.companion,
+      companion_name:   payload.companionName || null,
+      coin_balance:     0,
+      garden_health:    1.0,
+      weekly_bank_ms:   0,
+    })
+    .select('id')
+    .single()
   if (childErr) return { ok: false, error: childErr.message }
 
-  // Set parent_verified cookie so redirect to /parent works without re-entering PIN
   const cookieStore = await cookies()
+
+  // Set active_child_id so child pages work immediately
+  if (childData?.id) {
+    cookieStore.set('active_child_id', childData.id, {
+      httpOnly: true,
+      secure:   process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge:   24 * 60 * 60,
+      path:     '/',
+    })
+  }
+
+  // Set parent_verified cookie so redirect to /parent works without re-entering PIN
   cookieStore.set('parent_verified', '1', {
     httpOnly: true,
     secure:   process.env.NODE_ENV === 'production',
