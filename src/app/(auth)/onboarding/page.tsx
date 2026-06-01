@@ -82,10 +82,10 @@ function Step1({ onNext }: { onNext: () => void }) {
       <HaloLogo fontSize={44} />
 
       <motion.div
-        animate={{ y: [0, -14, 0] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <CompanionCharacter character="cat" pose="excited" size={160} />
+        <CompanionCharacter character="cat" pose="idle" size={160} />
       </motion.div>
 
       <h1 style={{
@@ -290,10 +290,10 @@ function Step4({
       </h2>
 
       <motion.div
-        animate={{ rotate: [0, 10, -10, 6, 0], y: [0, -8, 0] }}
-        transition={{ duration: 1.2, ease: 'easeInOut' }}
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <CompanionCharacter character={companion} pose="excited" size={180} />
+        <CompanionCharacter character={companion} pose="happy" size={180} />
       </motion.div>
 
       <div style={{ width: '100%' }}>
@@ -413,8 +413,8 @@ function Step6({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, textAlign: 'center' }}>
       <motion.div
-        animate={{ y: [0, -18, 0], rotate: [-4, 4, -4] }}
-        transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut' }}
       >
         <CompanionCharacter character={companion} pose="happy" size={200} />
       </motion.div>

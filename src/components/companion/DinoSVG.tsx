@@ -5,31 +5,35 @@ import type { Pose } from './CompanionCharacter'
 
 interface Props { pose: Pose; size: number }
 
-const BODY_Y:   Record<Pose, number[]>  = {
-  idle:    [0, -5, 0],
-  happy:   [0, -12, 0],
-  sleepy:  [0, 3, 0],
-  excited: [0, -16, 0, -16, 0],
-  sorry:   [0, 4, 0],
+// Gentle breathing
+const BODY_Y:   Record<Pose, number[]> = {
+  idle:    [0, -2, 0],
+  happy:   [0, -4, 0],
+  sleepy:  [0, 1.5, 0],
+  excited: [0, -5, 0],
+  sorry:   [0, 2, 0],
 }
-const BODY_DUR: Record<Pose, number>  = { idle: 2.2, happy: 0.9, sleepy: 4.5, excited: 0.4, sorry: 3.2 }
-const ARM_R:    Record<Pose, number[]> = {
-  idle:    [-5, 5, -5],
-  happy:   [-15, 15, -15],
-  sleepy:  [-3, 3, -3],
-  excited: [-25, 25, -25],
+const BODY_DUR: Record<Pose, number> = { idle: 4.2, happy: 2.8, sleepy: 5.5, excited: 2.2, sorry: 4.5 }
+
+// Gentle arm sway
+const ARM_R:   Record<Pose, number[]> = {
+  idle:    [-4, 4, -4],
+  happy:   [-8, 8, -8],
+  sleepy:  [-2, 2, -2],
+  excited: [-10, 10, -10],
   sorry:   [-2, 2, -2],
 }
-const ARM_DUR:  Record<Pose, number>  = { idle: 2.0, happy: 0.8, sleepy: 5.0, excited: 0.3, sorry: 4.0 }
-const HEAD_R:   Record<Pose, number>  = { idle: 0, happy: 8, sleepy: -5, excited: 5, sorry: -16 }
+const ARM_DUR: Record<Pose, number> = { idle: 3.5, happy: 2.0, sleepy: 5.5, excited: 1.8, sorry: 4.5 }
+
+const HEAD_R:    Record<Pose, number>   = { idle: 0, happy: 6, sleepy: -4, excited: 3, sorry: -12 }
 const EYE_SCALE: Record<Pose, number[]> = {
   idle:    [1, 0.05, 1],
   happy:   [0.3, 0.3, 0.3],
   sleepy:  [0.1, 0.1, 0.1],
-  excited: [1.4, 1.4, 1.4],
+  excited: [1.2, 1.2, 1.2],
   sorry:   [0.5, 0.5, 0.5],
 }
-const EYE_DUR:  Record<Pose, number>  = { idle: 3.8, happy: 99, sleepy: 99, excited: 99, sorry: 99 }
+const EYE_DUR: Record<Pose, number> = { idle: 4.0, happy: 99, sleepy: 99, excited: 99, sorry: 99 }
 
 const SPIKES = [
   { cx: 54, cy: 22, r: 5 },
@@ -52,7 +56,7 @@ export function DinoSVG({ pose, size }: Props) {
         {/* Belly */}
         <ellipse cx="60" cy="85" rx="14" ry="12" fill="#D6F5D8" />
 
-        {/* Stubby arms */}
+        {/* Arms */}
         <motion.g
           style={{ transformBox: 'fill-box', transformOrigin: '38px 80px' }}
           animate={{ rotate: ARM_R[pose] }}
@@ -72,9 +76,8 @@ export function DinoSVG({ pose, size }: Props) {
         <motion.g
           style={{ transformBox: 'fill-box', transformOrigin: '60px 48px' }}
           animate={{ rotate: HEAD_R[pose] }}
-          transition={{ type: 'spring', stiffness: 110, damping: 14 }}
+          transition={{ type: 'spring', stiffness: 60, damping: 18 }}
         >
-          {/* Spikes */}
           {SPIKES.map((s, i) => (
             <ellipse key={i} cx={s.cx} cy={s.cy} rx={s.r} ry={s.r * 1.4} fill="#5C9B6A" />
           ))}
@@ -82,18 +85,16 @@ export function DinoSVG({ pose, size }: Props) {
 
           {/* Eyes */}
           <motion.ellipse
-            cx="50" cy="46" rx="5" ry="6"
-            fill="#2D2D3A"
+            cx="50" cy="46" rx="5" ry="6" fill="#2D2D3A"
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             animate={{ scaleY: EYE_SCALE[pose] }}
-            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 1.8 }}
+            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 2.2 }}
           />
           <motion.ellipse
-            cx="70" cy="46" rx="5" ry="6"
-            fill="#2D2D3A"
+            cx="70" cy="46" rx="5" ry="6" fill="#2D2D3A"
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             animate={{ scaleY: EYE_SCALE[pose] }}
-            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 1.8 }}
+            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 2.2 }}
           />
           <circle cx="52" cy="44" r="1.5" fill="white" />
           <circle cx="72" cy="44" r="1.5" fill="white" />
@@ -107,8 +108,8 @@ export function DinoSVG({ pose, size }: Props) {
           {pose === 'sleepy' && (
             <motion.text
               x="76" y="36" fontSize="10" fill="#7C5CBF" fontWeight="bold"
-              animate={{ opacity: [0.2, 1, 0.2], y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+              animate={{ opacity: [0.2, 1, 0.2], y: [0, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
             >
               z
             </motion.text>

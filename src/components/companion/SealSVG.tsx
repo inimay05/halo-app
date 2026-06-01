@@ -5,32 +5,35 @@ import type { Pose } from './CompanionCharacter'
 
 interface Props { pose: Pose; size: number }
 
-const BODY_Y:    Record<Pose, number[]>  = {
-  idle:    [0, -4, 0],
-  happy:   [0, -10, 0],
-  sleepy:  [0, 2, 0],
-  excited: [0, -14, 0, -14, 0],
-  sorry:   [0, 3, 0],
+// Gentle breathing — no big jumps
+const BODY_Y:   Record<Pose, number[]> = {
+  idle:    [0, -2, 0],
+  happy:   [0, -4, 0],
+  sleepy:  [0, 1.5, 0],
+  excited: [0, -5, 0],
+  sorry:   [0, 2, 0],
 }
-const BODY_DUR:  Record<Pose, number>  = { idle: 2.6, happy: 1.0, sleepy: 4.5, excited: 0.45, sorry: 3.2 }
-// Clapping flippers: rotate up/down
-const FLIP_R:    Record<Pose, number[]> = {
-  idle:    [-10, 10, -10],
-  happy:   [-30, 30, -30],
-  sleepy:  [-5, 5, -5],
-  excited: [-50, 50, -50],
-  sorry:   [-6, 6, -6],
+const BODY_DUR: Record<Pose, number> = { idle: 4.0, happy: 2.8, sleepy: 5.5, excited: 2.2, sorry: 4.5 }
+
+// Slow gentle flipper sway — not clapping
+const FLIP_R:   Record<Pose, number[]> = {
+  idle:    [-6, 6, -6],
+  happy:   [-12, 12, -12],
+  sleepy:  [-3, 3, -3],
+  excited: [-14, 14, -14],
+  sorry:   [-4, 4, -4],
 }
-const FLIP_DUR:  Record<Pose, number>  = { idle: 1.8, happy: 0.7, sleepy: 5.0, excited: 0.25, sorry: 4.0 }
-const HEAD_R:    Record<Pose, number>  = { idle: 0, happy: 8, sleepy: -6, excited: 0, sorry: -16 }
+const FLIP_DUR: Record<Pose, number> = { idle: 3.2, happy: 2.0, sleepy: 5.5, excited: 1.8, sorry: 4.8 }
+
+const HEAD_R:    Record<Pose, number>   = { idle: 0, happy: 5, sleepy: -4, excited: 3, sorry: -10 }
 const EYE_SCALE: Record<Pose, number[]> = {
   idle:    [1, 0.05, 1],
   happy:   [0.3, 0.3, 0.3],
   sleepy:  [0.1, 0.1, 0.1],
-  excited: [1.3, 1.3, 1.3],
+  excited: [1.2, 1.2, 1.2],
   sorry:   [0.55, 0.55, 0.55],
 }
-const EYE_DUR:   Record<Pose, number>  = { idle: 3.2, happy: 99, sleepy: 99, excited: 99, sorry: 99 }
+const EYE_DUR: Record<Pose, number> = { idle: 3.5, happy: 99, sleepy: 99, excited: 99, sorry: 99 }
 
 export function SealSVG({ pose, size }: Props) {
   return (
@@ -39,12 +42,12 @@ export function SealSVG({ pose, size }: Props) {
         animate={{ y: BODY_Y[pose] }}
         transition={{ repeat: Infinity, duration: BODY_DUR[pose], ease: 'easeInOut' }}
       >
-        {/* Body — round blob */}
+        {/* Body */}
         <ellipse cx="60" cy="84" rx="30" ry="25" fill="#8EB8D4" />
         {/* Belly */}
         <ellipse cx="60" cy="88" rx="18" ry="14" fill="#D6EAF8" />
 
-        {/* Left flipper */}
+        {/* Left flipper — gentle sway */}
         <motion.g
           style={{ transformBox: 'fill-box', transformOrigin: '34px 82px' }}
           animate={{ rotate: FLIP_R[pose] }}
@@ -71,26 +74,23 @@ export function SealSVG({ pose, size }: Props) {
         <motion.g
           style={{ transformBox: 'fill-box', transformOrigin: '60px 52px' }}
           animate={{ rotate: HEAD_R[pose] }}
-          transition={{ type: 'spring', stiffness: 115, damping: 14 }}
+          transition={{ type: 'spring', stiffness: 60, damping: 18 }}
         >
           <circle cx="60" cy="52" r="26" fill="#8EB8D4" />
 
-          {/* Eyes — big round seal eyes */}
+          {/* Eyes */}
           <motion.ellipse
-            cx="49" cy="50" rx="6" ry="7"
-            fill="#2D2D3A"
+            cx="49" cy="50" rx="6" ry="7" fill="#2D2D3A"
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             animate={{ scaleY: EYE_SCALE[pose] }}
-            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 1.4 }}
+            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 2.0 }}
           />
           <motion.ellipse
-            cx="71" cy="50" rx="6" ry="7"
-            fill="#2D2D3A"
+            cx="71" cy="50" rx="6" ry="7" fill="#2D2D3A"
             style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             animate={{ scaleY: EYE_SCALE[pose] }}
-            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 1.4 }}
+            transition={{ repeat: Infinity, duration: EYE_DUR[pose], ease: 'easeInOut', repeatDelay: 2.0 }}
           />
-          {/* Shine */}
           <circle cx="51" cy="47" r="2" fill="white" />
           <circle cx="73" cy="47" r="2" fill="white" />
 
@@ -112,8 +112,8 @@ export function SealSVG({ pose, size }: Props) {
           {pose === 'sleepy' && (
             <motion.text
               x="78" y="36" fontSize="10" fill="#7C5CBF" fontWeight="bold"
-              animate={{ opacity: [0.2, 1, 0.2], y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+              animate={{ opacity: [0.2, 1, 0.2], y: [0, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 3.5, ease: 'easeInOut' }}
             >
               z
             </motion.text>
