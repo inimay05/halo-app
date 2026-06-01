@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Halo Widget — Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0f0f1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Browser mockup ───────────────────────────────────────────────── */
+  #browser {
+    width: 860px;
+    height: 540px;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    position: relative;
+  }
+
+  #toolbar {
+    background: #f0f0f4;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 8px;
+    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #FF5F57; }
+  .dot.y { background: #FFBD2E; }
+  .dot.g { background: #28C840; }
+  #addressbar {
+    flex: 1;
+    background: white;
+    border-radius: 7px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #888;
+    margin: 0 10px;
+  }
+
+  #page {
+    width: 100%;
+    height: calc(100% - 42px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── YouTube-like page ────────────────────────────────────────────── */
+  #yt-header {
+    background: #FF0000;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 16px;
+  }
+  #yt-logo { color: white; font-size: 20px; font-weight: 900; }
+  #yt-search {
+    flex: 1; max-width: 300px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 4px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  #yt-body {
+    display: flex;
+    gap: 0;
+    height: calc(100% - 50px);
+  }
+
+  #yt-main {
+    flex: 1;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #yt-player {
+    width: 100%;
+    height: 230px;
+    background: #111;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .play-btn {
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-triangle {
+    width: 0; height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid white;
+    margin-left: 4px;
+    opacity: 0.85;
+  }
+  #progress-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+  }
+  #progress-fill {
+    height: 100%;
+    width: 38%;
+    background: #FF0000;
+    border-radius: 2px;
+  }
+
+  #yt-title { font-size: 13px; font-weight: 700; color: #111; }
+  #yt-sub { font-size: 11px; color: #666; }
+
+  #yt-sidebar {
+    width: 220px;
+    padding: 12px 10px;
+    border-left: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+  }
+  #yt-sidebar-title { font-size: 12px; font-weight: 700; color: #111; }
+
+  .yt-card {
+    display: flex;
+    gap: 8px;
+  }
+  .yt-thumb {
+    width: 88px; height: 50px;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+  .yt-card-info { font-size: 10px; color: #333; line-height: 1.4; }
+  .yt-card-sub { font-size: 9px; color: #888; margin-top: 2px; }
+
+  /* ── Widget bubble ────────────────────────────────────────────────── */
+  #widget-bubble {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #D6F5EC;
+    border: 3px solid #D6F5EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    z-index: 50;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease, background 0.8s ease, border-color 0.8s ease, width 0.8s ease, height 0.8s ease;
+    cursor: pointer;
+  }
+
+  /* ── Time tooltip ─────────────────────────────────────────────────── */
+  #time-tooltip {
+    position: absolute;
+    bottom: 80px;
+    right: 10px;
+    background: white;
+    border-radius: 10px;
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6C3FCF;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    z-index: 51;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  #time-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    right: 20px;
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white;
+  }
+
+  /* ── Greyscale overlay ────────────────────────────────────────────── */
+  #grey-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 40;
+    pointer-events: none;
+    transition: backdrop-filter 2s ease, -webkit-backdrop-filter 2s ease;
+  }
+  #grey-overlay.active {
+    backdrop-filter: saturate(0%);
+    -webkit-backdrop-filter: saturate(0%);
+  }
+
+  /* ── Break takeover ───────────────────────────────────────────────── */
+  #takeover {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  #takeover.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+  #companion-big {
+    font-size: 72px;
+    transform: scale(0);
+    transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    line-height: 1;
+  }
+  #takeover.visible #companion-big {
+    transform: scale(1);
+  }
+  #break-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1E1B3A;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s 0.3s, transform 0.4s 0.3s;
+  }
+  #takeover.visible #break-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #break-task {
+    font-size: 16px;
+    color: #444;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s 0.5s, transform 0.4s 0.5s;
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.5;
+  }
+  #takeover.visible #break-task {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #pin-hint {
+    font-size: 11px;
+    color: rgba(0,0,0,0.4);
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.4s 0.8s;
+  }
+  #takeover.visible #pin-hint {
+    opacity: 1;
+  }
+  #pin-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    border-radius: 20px;
+    padding: 28px 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    z-index: 110;
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    min-width: 240px;
+  }
+  #pin-modal.visible {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  #pin-modal-title { font-size: 14px; font-weight: 800; color: #1E1B3A; }
+  .pin-dots {
+    display: flex;
+    gap: 12px;
+  }
+  .pin-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2.5px solid #6C3FCF;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .pin-dot.filled { background: #6C3FCF; }
+  .pin-dot.correct { background: #28C840; border-color: #28C840; }
+
+  /* ── Caption bar ──────────────────────────────────────────────────── */
+  #caption {
+    margin-top: 24px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 14px 28px;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    max-width: 860px;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: opacity 0.4s;
+  }
+  #caption-icon { font-size: 20px; flex-shrink: 0; }
+  #caption-text { line-height: 1.4; }
+
+  /* ── Step indicators ──────────────────────────────────────────────── */
+  #steps {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: background 0.3s, width 0.3s;
+  }
+  .step-dot.active {
+    background: #F0C040;
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* ── Next button ──────────────────────────────────────────────────── */
+  #next-btn {
+    margin-top: 10px;
+    padding: 10px 28px;
+    border-radius: 30px;
+    border: none;
+    background: #6C3FCF;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: inherit;
+  }
+  #next-btn:hover { background: #5a32b0; transform: scale(1.03); }
+  #next-btn:active { transform: scale(0.97); }
+
+  .highlight-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #F0C040;
+    animation: pulse-ring 1.2s ease-out infinite;
+    pointer-events: none;
+    z-index: 200;
+  }
+  @keyframes pulse-ring {
+    0%   { opacity: 1;  transform: scale(1);   }
+    100% { opacity: 0;  transform: scale(1.6); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Browser -->
+<div id="browser">
+  <div id="toolbar">
+    <div class="dot r"></div>
+    <div class="dot y"></div>
+    <div class="dot g"></div>
+    <div id="addressbar">🔒&nbsp; youtube.com/watch?v=abc123</div>
+  </div>
+
+  <div id="page">
+    <!-- YouTube page -->
+    <div id="yt-header">
+      <div id="yt-logo">▶ YouTube</div>
+      <div id="yt-search">Search</div>
+    </div>
+    <div id="yt-body">
+      <div id="yt-main">
+        <div id="yt-player">
+          <div class="play-btn"><div class="play-triangle"></div></div>
+          <div id="progress-bar"><div id="progress-fill"></div></div>
+        </div>
+        <div id="yt-title">Amazing Ocean Animals 🐙 | Educational Video for Kids</div>
+        <div id="yt-sub">National Geographic Kids · 3.4M views · 1 week ago</div>
+      </div>
+      <div id="yt-sidebar">
+        <div id="yt-sidebar-title">Up Next</div>
+        <div class="yt-card">
+          <div class="yt-thumb" style="background:#FFD6D6"></div>
+          <div><div class="yt-card-info">Why Dolphins Are So Smart</div><div class="yt-card-sub">Nat Geo Kids</div></div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-thumb" style="background:#D6E8FF"></div>
+          <div><div class="yt-card-info">The Secret Life of Penguins</div><div class="yt-card-sub">BBC Earth Kids</div></div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-thumb" style="background:#D6FFE8"></div>
+          <div><div class="yt-card-info">Amazing Facts About Elephants</div><div class="yt-card-sub">Science for Kids</div></div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-thumb" style="background:#FFF3D6"></div>
+          <div><div class="yt-card-info">Ocean Creatures You Won't Believe</div><div class="yt-card-sub">Discovery Kids</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Greyscale overlay -->
+    <div id="grey-overlay"></div>
+
+    <!-- Widget bubble -->
+    <div id="widget-bubble">🐱</div>
+
+    <!-- Time tooltip -->
+    <div id="time-tooltip">⏱ 38 min left today</div>
+
+    <!-- Break takeover -->
+    <div id="takeover">
+      <div id="companion-big">🐱</div>
+      <div id="break-title">Time for a break! 🌿</div>
+      <div id="break-task">Stand up and do <strong>10 jumping jacks</strong>.<br/>Your garden is counting on you! 🌱</div>
+      <div id="pin-hint">Parent: hold anywhere for 1.5s to unlock with PIN</div>
+      <div id="pin-modal">
+        <div id="pin-modal-title">🔒 Parent PIN</div>
+        <div class="pin-dots">
+          <div class="pin-dot" id="d1"></div>
+          <div class="pin-dot" id="d2"></div>
+          <div class="pin-dot" id="d3"></div>
+          <div class="pin-dot" id="d4"></div>
+        </div>
+        <div style="font-size:11px;color:#888">Enter your 4-digit PIN to dismiss</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Caption -->
+<div id="caption">
+  <span id="caption-icon">👋</span>
+  <span id="caption-text">Click <strong>Next</strong> to start the demo</span>
+</div>
+
+<!-- Step dots -->
+<div id="steps"></div>
+
+<!-- Next button -->
+<button id="next-btn" onclick="advance()">Next →</button>
+
+<script>
+const STEPS = [
+  {
+    icon: '📲',
+    text: 'The Halo widget is installed once via <strong>Tampermonkey</strong> — a free browser extension. After that, it activates automatically on <em>every</em> website the child visits.',
+    action: () => {}
+  },
+  {
+    icon: '🐱',
+    text: 'A small <strong>companion bubble</strong> appears quietly in the bottom-right corner. It\'s always visible — a gentle reminder that Halo is watching over the session.',
+    action: showBubble
+  },
+  {
+    icon: '⏱',
+    text: 'The bubble shows a <strong>live time remaining</strong> tooltip — so the child always knows how much screen time they have left today based on the parent\'s rules.',
+    action: showTooltip
+  },
+  {
+    icon: '👁',
+    text: 'Halo monitors <strong>mouse movement, keyboard, and touch</strong> every 5 seconds. If the child stops interacting — for example, just watching YouTube passively — it detects that as <em>passive staring</em>.',
+    action: simulateInactivity
+  },
+  {
+    icon: '🌫',
+    text: 'Before any hard block, the screen\'s <strong>colour slowly drains to greyscale</strong> over about 3 minutes — a silent, ambient warning that the child has been inactive for too long.',
+    action: showGreyscale
+  },
+  {
+    icon: '🛑',
+    text: 'When the limit is hit — whether from passive staring, too many autoplay videos, or the session timer — Halo takes over the <strong>full screen</strong>. The child cannot scroll, click, or escape.',
+    action: showTakeover
+  },
+  {
+    icon: '🤸',
+    text: 'A <strong>short physical task</strong> is shown — jumping jacks, deep breaths, stretching. The child\'s companion bounces in. This is the only way to earn the break and get their time back.',
+    action: () => {}
+  },
+  {
+    icon: '🔑',
+    text: 'A parent can also dismiss it. <strong>Long-pressing for 1.5 seconds</strong> reveals a PIN modal. The correct 4-digit PIN — verified server-side — clears the overlay immediately.',
+    action: showPin
+  },
+  {
+    icon: '✅',
+    text: 'PIN accepted — overlay dismissed. <strong>All events are synced to the parent dashboard every 5 seconds</strong> in real time: breaks triggered, skipped, passive stare detections, autoplay traps.',
+    action: showPinAccepted
+  },
+  {
+    icon: '📊',
+    text: 'The parent dashboard reflects everything <strong>live</strong>. Rules changed from the dashboard (time limits, bedtime, autoplay cap) take effect on the child\'s browser within <strong>5 seconds</strong> — no restart needed.',
+    action: resetAll
+  },
+]
+
+let current = -1
+
+// Build step dots
+const stepsEl = document.getElementById('steps')
+STEPS.forEach((_, i) => {
+  const d = document.createElement('div')
+  d.className = 'step-dot'
+  d.id = 'sdot-' + i
+  stepsEl.appendChild(d)
+})
+
+function setCaption(icon, text) {
+  document.getElementById('caption-icon').textContent = icon
+  document.getElementById('caption-text').innerHTML = text
+}
+
+function setActiveDot(i) {
+  document.querySelectorAll('.step-dot').forEach((d, idx) => {
+    d.classList.toggle('active', idx === i)
+  })
+}
+
+function advance() {
+  current++
+  if (current >= STEPS.length) { current = 0; resetAll(); setTimeout(() => { current = 0; runStep(0) }, 600); return; }
+  runStep(current)
+}
+
+function runStep(i) {
+  const s = STEPS[i]
+  setCaption(s.icon, s.text)
+  setActiveDot(i)
+  s.action()
+  if (i === STEPS.length - 1) {
+    document.getElementById('next-btn').textContent = '↺ Restart'
+  } else {
+    document.getElementById('next-btn').textContent = 'Next →'
+  }
+}
+
+// ── Actions ────────────────────────────────────────────────────────────────
+
+function showBubble() {
+  const b = document.getElementById('widget-bubble')
+  b.style.opacity = '1'
+  b.style.transform = 'scale(1)'
+  // Gentle breathing animation
+  setTimeout(() => {
+    b.style.transition = 'transform 2s ease-in-out'
+    const breathe = () => {
+      b.style.transform = 'scale(1.08)'
+      setTimeout(() => { b.style.transform = 'scale(1)'; setTimeout(breathe, 2200) }, 2200)
+    }
+    breathe()
+  }, 600)
+}
+
+function showTooltip() {
+  const t = document.getElementById('time-tooltip')
+  t.style.opacity = '1'
+  t.style.transform = 'translateY(0)'
+}
+
+function simulateInactivity() {
+  // Bubble turns amber — approaching limit
+  const b = document.getElementById('widget-bubble')
+  b.style.transition = 'background 1.5s ease, border-color 1.5s ease, transform 0.5s ease'
+  b.style.background = '#FEF3C7'
+  b.style.borderColor = '#F0C040'
+  // Add pulse ring
+  const ring = document.createElement('div')
+  ring.className = 'highlight-ring'
+  const rect = document.getElementById('page').getBoundingClientRect()
+  ring.style.cssText = `width:62px;height:62px;bottom:13px;right:13px;position:absolute;z-index:200;`
+  document.getElementById('page').appendChild(ring)
+}
+
+function showGreyscale() {
+  document.getElementById('grey-overlay').classList.add('active')
+  // Bubble turns more orange-red
+  const b = document.getElementById('widget-bubble')
+  b.style.background = '#FCE8D8'
+  b.style.borderColor = '#F97316'
+}
+
+function showTakeover() {
+  document.getElementById('grey-overlay').classList.remove('active')
+  // Remove any pulse rings
+  document.querySelectorAll('.highlight-ring').forEach(r => r.remove())
+  const t = document.getElementById('takeover')
+  t.classList.add('visible')
+  document.getElementById('widget-bubble').style.opacity = '0'
+  document.getElementById('time-tooltip').style.opacity = '0'
+}
+
+function showPin() {
+  const modal = document.getElementById('pin-modal')
+  modal.classList.add('visible')
+  // Animate dots filling one by one
+  const dots = ['d1','d2','d3','d4']
+  dots.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('filled')
+    }, 400 + i * 350)
+  })
+}
+
+function showPinAccepted() {
+  const dots = ['d1','d2','d3','d4']
+  dots.forEach(id => {
+    const d = document.getElementById(id)
+    d.classList.remove('filled')
+    d.classList.add('correct')
+  })
+  setTimeout(() => {
+    document.getElementById('takeover').classList.remove('visible')
+    document.getElementById('pin-modal').classList.remove('visible')
+    dots.forEach(id => document.getElementById(id).classList.remove('correct'))
+    // Restore bubble healthy
+    const b = document.getElementById('widget-bubble')
+    b.style.transition = 'all 0.5s ease'
+    b.style.opacity = '1'
+    b.style.background = '#D6F5EC'
+    b.style.borderColor = '#D6F5EC'
+    // Show time tooltip briefly
+    const t = document.getElementById('time-tooltip')
+    t.innerHTML = '✅ Break complete — session reset!'
+    t.style.opacity = '1'
+    t.style.transform = 'translateY(0)'
+    setTimeout(() => {
+      t.innerHTML = '⏱ 38 min left today'
+    }, 2500)
+  }, 800)
+}
+
+function resetAll() {
+  // Reset everything to initial state
+  document.getElementById('grey-overlay').classList.remove('active')
+  document.getElementById('takeover').classList.remove('visible')
+  document.getElementById('pin-modal').classList.remove('visible')
+  document.querySelectorAll('.highlight-ring').forEach(r => r.remove())
+  ;['d1','d2','d3','d4'].forEach(id => {
+    const d = document.getElementById(id)
+    d.classList.remove('filled','correct')
+  })
+  const b = document.getElementById('widget-bubble')
+  b.style.transition = 'all 0.5s ease'
+  b.style.opacity = '0'
+  b.style.transform = 'scale(0)'
+  b.style.background = '#D6F5EC'
+  b.style.borderColor = '#D6F5EC'
+  document.getElementById('time-tooltip').style.opacity = '0'
+  document.getElementById('time-tooltip').innerHTML = '⏱ 38 min left today'
+}
+
+// Start on load
+window.onload = () => {
+  setCaption('👋', 'Click <strong>Next</strong> to start the Halo widget demo')
+}
+</script>
+</body>
+</html>
