@@ -46,7 +46,7 @@ interface Props {
 
 export function ChildShell({ profile, children }: Props) {
   const pathname                    = usePathname()
-  const { setActiveChild }          = useProfileStore()
+  const { setActiveChild, setChildProfiles } = useProfileStore()
   const loadBalance                 = useCoinStore((s) => s.loadBalance)
   const loadBadges                  = useCallback(() => BadgeEngine.loadBadges(profile.id), [profile.id])
 
@@ -61,10 +61,11 @@ export function ChildShell({ profile, children }: Props) {
 
   useEffect(() => {
     setMounted(true)
+    setChildProfiles([profile])
     setActiveChild(profile.id)
     loadBalance(profile.id)
     loadBadges()
-  }, [profile.id, setActiveChild, loadBalance, loadBadges])
+  }, [profile.id, setActiveChild, setChildProfiles, loadBalance, loadBadges])
 
   const handleDoneConfirm = useCallback(async () => {
     setShowSheet(false)
