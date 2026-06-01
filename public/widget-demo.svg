@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580" font-family="Arial, sans-serif">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="rgba(0,0,0,0.18)"/>
+    </filter>
+    <filter id="bubble-shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5f0ff"/>
+      <stop offset="100%" stop-color="#fff8f0"/>
+    </linearGradient>
+    <linearGradient id="halo-ring" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F5D86A"/>
+      <stop offset="50%" stop-color="#F0C040"/>
+      <stop offset="100%" stop-color="#D4A017"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Page background -->
+  <rect width="900" height="580" fill="url(#bg-grad)"/>
+
+  <!-- Title -->
+  <text x="450" y="44" text-anchor="middle" font-size="22" font-weight="800" fill="#3d2c6e">Halo Widget — What Your Child Sees</text>
+  <text x="450" y="66" text-anchor="middle" font-size="13" fill="#888">A small companion bubble appears on every website, tracking screen time and reminding kids to take breaks</text>
+
+  <!-- ── Browser window ── -->
+  <rect x="60" y="88" width="780" height="460" rx="14" fill="white" filter="url(#shadow)"/>
+
+  <!-- Browser toolbar -->
+  <rect x="60" y="88" width="780" height="44" rx="14" fill="#f0f0f4"/>
+  <rect x="60" y="116" width="780" height="16" fill="#f0f0f4"/>
+
+  <!-- Traffic lights -->
+  <circle cx="88"  cy="110" r="7" fill="#FF5F57"/>
+  <circle cx="108" cy="110" r="7" fill="#FFBD2E"/>
+  <circle cx="128" cy="110" r="7" fill="#28C840"/>
+
+  <!-- Address bar -->
+  <rect x="160" y="100" width="440" height="22" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
+  <text x="172" y="115" font-size="11" fill="#999">🔒  youtube.com/watch?v=dQw4w9WgXcQ</text>
+
+  <!-- YouTube-like page -->
+  <!-- Red header bar -->
+  <rect x="60" y="132" width="780" height="46" fill="#FF0000"/>
+  <text x="104" y="162" font-size="20" font-weight="900" fill="white">▶ YouTube</text>
+  <rect x="340" y="144" width="280" height="22" rx="4" fill="white" opacity="0.9"/>
+  <text x="352" y="159" font-size="11" fill="#aaa">Search</text>
+
+  <!-- Video player area -->
+  <rect x="80" y="188" width="490" height="276" rx="8" fill="#111"/>
+  <!-- Play button -->
+  <circle cx="325" cy="326" r="36" fill="rgba(255,255,255,0.15)"/>
+  <polygon points="315,310 315,342 347,326" fill="white" opacity="0.9"/>
+  <!-- Progress bar -->
+  <rect x="80" y="456" width="490" height="5" rx="2" fill="#333"/>
+  <rect x="80" y="456" width="190" height="5" rx="2" fill="#FF0000"/>
+  <!-- Video title below -->
+  <text x="80" y="478" font-size="13" font-weight="700" fill="#111">How Animals Are Amazing | Educational Video for Kids</text>
+  <text x="80" y="494" font-size="11" fill="#666">National Geographic Kids · 2.1M views · 3 days ago</text>
+
+  <!-- Right sidebar: recommended videos -->
+  <text x="594" y="206" font-size="12" font-weight="700" fill="#111">Up Next</text>
+  <!-- Video thumbnails -->
+  <rect x="594" y="218" width="120" height="68" rx="5" fill="#ddd"/>
+  <rect x="594" y="294" width="120" height="68" rx="5" fill="#e0e8f0"/>
+  <rect x="594" y="370" width="120" height="68" rx="5" fill="#e8f0e0"/>
+  <rect x="594" y="446" width="120" height="68" rx="5" fill="#f0e8e0"/>
+  <text x="724" y="230" font-size="10" font-weight="600" fill="#111">Why Dolphins Are So Smart</text>
+  <text x="724" y="244" font-size="9" fill="#666">Nat Geo Kids</text>
+  <text x="724" y="306" font-size="10" font-weight="600" fill="#111">The Secret Life of Penguins</text>
+  <text x="724" y="320" font-size="9" fill="#666">BBC Earth Kids</text>
+  <text x="724" y="382" font-size="10" font-weight="600" fill="#111">Amazing Facts About Elephants</text>
+  <text x="724" y="396" font-size="9" fill="#666">Science for Kids</text>
+  <text x="724" y="458" font-size="10" font-weight="600" fill="#111">Ocean Animals You Won't Believe</text>
+  <text x="724" y="472" font-size="9" fill="#666">Discovery Kids</text>
+
+  <!-- ── Halo Widget bubble ── -->
+  <!-- Tooltip -->
+  <rect x="760" y="454" width="138" height="42" rx="10" fill="white" filter="url(#bubble-shadow)"/>
+  <polygon points="812,496 828,496 820,506" fill="white"/>
+  <text x="775" y="471" font-size="11" font-weight="800" fill="#6c3fcf">⏱  38 min left today</text>
+  <text x="775" y="486" font-size="10" fill="#888">Screen time: 22 min used</text>
+
+  <!-- Bubble circle -->
+  <circle cx="820" cy="522" r="32" fill="#D6F5EC" filter="url(#bubble-shadow)"/>
+  <circle cx="820" cy="522" r="32" fill="none" stroke="#D6F5EC" stroke-width="3"/>
+  <text x="820" y="531" text-anchor="middle" font-size="28">🐱</text>
+
+  <!-- ── Break takeover overlay callout ── -->
+  <!-- Arrow pointing to widget -->
+  <line x1="700" y1="480" x2="790" y2="510" stroke="#6c3fcf" stroke-width="2" stroke-dasharray="5,3"/>
+  <circle cx="700" cy="480" r="4" fill="#6c3fcf"/>
+
+  <!-- ── Legend / annotations ── -->
+  <!-- Annotation 1: Widget -->
+  <rect x="510" y="510" width="170" height="50" rx="10" fill="#ede8ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="595" y="530" text-anchor="middle" font-size="11" font-weight="800" fill="#6c3fcf">🐱 Companion Bubble</text>
+  <text x="595" y="545" text-anchor="middle" font-size="10" fill="#7c5cbf">Sits quietly in the corner</text>
+  <text x="595" y="557" text-anchor="middle" font-size="10" fill="#7c5cbf">on every website</text>
+
+  <!-- Annotation 2: Tooltip -->
+  <rect x="70" y="510" width="188" height="50" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="164" y="530" text-anchor="middle" font-size="11" font-weight="800" fill="#166534">⏱ Live Time Remaining</text>
+  <text x="164" y="545" text-anchor="middle" font-size="10" fill="#15803d">Shows how much screen time</text>
+  <text x="164" y="557" text-anchor="middle" font-size="10" fill="#15803d">is left based on parent rules</text>
+
+  <!-- Annotation 3: Break reminder -->
+  <rect x="290" y="510" width="200" height="50" rx="10" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+  <text x="390" y="530" text-anchor="middle" font-size="11" font-weight="800" fill="#92400e">⏰ Break Reminders</text>
+  <text x="390" y="545" text-anchor="middle" font-size="10" fill="#b45309">When time is up, a full-screen</text>
+  <text x="390" y="557" text-anchor="middle" font-size="10" fill="#b45309">break card gently takes over</text>
+</svg>

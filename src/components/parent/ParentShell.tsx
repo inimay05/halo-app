@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { href: '/parent/rules',     icon: '⚙️',  label: 'Rules'     },
   { href: '/parent/garden',    icon: '🌱', label: 'Garden'    },
   { href: '/parent/profiles',  icon: '👦', label: 'Profiles'  },
+  { href: '/parent/setup',     icon: '📲', label: 'Widget Setup' },
 ]
 
 const SIDEBAR_W = 220
