@@ -27,6 +27,7 @@ function greeting() {
 
 export default function ParentOverview() {
   const activeChild    = useProfileStore((s) => s.activeChild())
+  const [parentName,   setParentName]   = useState('')
   const [score,        setScore]        = useState(0)
   const [screenMs,     setScreenMs]     = useState(0)
   const [breaks,       setBreaks]       = useState(0)
@@ -43,6 +44,16 @@ export default function ParentOverview() {
     const start    = `${today}T00:00:00.000Z`
     const end      = `${today}T23:59:59.999Z`
     const supabase = createClient()
+
+    // Fetch parent display name
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) {
+        supabase.from('profiles').select('display_name, email').eq('id', data.user.id).single().then(({ data: p }) => {
+          const name = p?.display_name || data.user?.email?.split('@')[0] || 'there'
+          setParentName(name.charAt(0).toUpperCase() + name.slice(1))
+        })
+      }
+    })
 
     // Build last-7-days trend
     const days = Array.from({ length: 7 }, (_, i) => {
@@ -101,7 +112,7 @@ export default function ParentOverview() {
         style={{ marginBottom: 28 }}
       >
         <h1 style={{ margin: '0 0 4px', fontSize: 28, fontWeight: 700, color: COLORS.ink }}>
-          {greeting()}, {activeChild.name.split(' ')[0]}!
+          {greeting()}, {parentName || 'there'}!
         </h1>
         <p style={{ margin: 0, fontSize: 14, color: COLORS.haloGoldDark, fontWeight: 600 }}>
           Here&apos;s how {activeChild.name} is growing and exploring today.

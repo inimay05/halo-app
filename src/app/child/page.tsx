@@ -144,7 +144,6 @@ export default function ChildHome() {
             </span>
           </div>
 
-          {/* Companion character */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
             <CompanionCharacter
               character={activeChild.active_companion}
