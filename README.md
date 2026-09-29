@@ -4,7 +4,7 @@ Halo is a parent-child screen-time management platform designed to help children
 
 It provides parents with tools to understand and manage screen usage while giving children a more engaging way to learn responsible digital habits.
 
-«Important: Halo is not a solution, treatment, or cure for addiction. It is a management and support tool intended to be used alongside active parental supervision, education, healthy boundaries, communication, and appropriate professional guidance when necessary.»
+Important: Halo is not a solution, treatment, or cure for addiction. It is a management and support tool intended to be used alongside active parental supervision, education, healthy boundaries, communication, and appropriate professional guidance when necessary.»
 
 ---
 
