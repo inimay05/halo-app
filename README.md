@@ -150,71 +150,77 @@ The compiled widget is generated at:
 public/halo-widget.js
 
 ---
+# 🏗️ Halo — Architecture & Project Structure
 
-🏗️ Architecture
+## Architecture
 
-Halo follows a layered web application architecture built around a Next.js application, Supabase backend, and browser widget.
+Halo follows a layered web application architecture built around a **Next.js application, Supabase backend, and browser widget**.
 
-                         ┌───────────────────────┐
-                         │      Parent UI        │
-                         │                       │
-                         │ Dashboard • Rules     │
-                         │ Analytics • Profiles  │
-                         └───────────┬───────────┘
-                                     │
-                                     ▼
-┌─────────────────────────────────────────────────────────┐
-│                    Next.js Application                   │
-│                                                         │
-│  Authentication      Parent Experience                  │
-│  Child Experience    API Routes                         │
-│  Rewards             Engagement                         │
-│  Garden              Break Management                   │
-└───────────────────────────┬─────────────────────────────┘
-                            │
-              ┌─────────────┴─────────────┐
-              │                           │
-              ▼                           ▼
-     ┌─────────────────┐        ┌────────────────────┐
-     │     Supabase    │        │   Browser Widget   │
-     │                 │        │                    │
-     │ Authentication  │        │ Child Browser      │
-     │ Database        │        │ Activity Layer     │
-     │ Data Storage    │        │ API Communication  │
-     └─────────────────┘        └────────────────────┘
+### Architecture Diagram
 
-Architecture Components
+```text
+                   ┌──────────────────────────┐
+                   │        Parent UI         │
+                   │                          │
+                   │ Dashboard • Rules        │
+                   │ Analytics • Profiles     │
+                   └────────────┬─────────────┘
+                                │
+                                ▼
+┌──────────────────────────────────────────────────────────┐
+│                   Next.js Application                    │
+│                                                          │
+│  Authentication       Parent Experience                  │
+│  Child Experience     API Routes                         │
+│  Rewards              Engagement                         │
+│  Garden               Break Management                   │
+└────────────────────────────┬─────────────────────────────┘
+                             │
+              ┌──────────────┴──────────────┐
+              │                             │
+              ▼                             ▼
+    ┌───────────────────┐       ┌──────────────────────┐
+    │     Supabase      │       │    Browser Widget    │
+    │                   │       │                      │
+    │ Authentication    │       │ Child Browser        │
+    │ Database          │       │ Activity Layer       │
+    │ Data Storage      │       │ API Communication    │
+    └───────────────────┘       └──────────────────────┘
+```
 
-Next.js Application
+### Architecture Components
+
+#### 1. Next.js Application
 
 Acts as the primary application layer, handling authentication, parent and child interfaces, API routes, and core application logic.
 
-Supabase
+#### 2. Supabase
 
 Provides authentication and persistent database functionality.
 
-Parent Interface
+#### 3. Parent Interface
 
 Allows parents to configure rules, view information, manage profiles, and control screen-time-related functionality.
 
-Child Interface
+#### 4. Child Interface
 
-Provides the child-facing experience including the journey, rewards, garden, and Time Bank.
+Provides the child-facing experience, including the journey, rewards, garden, and Time Bank.
 
-Browser Widget
+#### 5. Browser Widget
 
 A self-contained browser-side component that interacts with the application through the widget API.
 
-Core Engines
+#### 6. Core Engines
 
-Application logic for engagement detection, coins, badges, garden progression, and break management is organized under "src/lib/".
+Application logic for engagement detection, coins, badges, garden progression, and break management is organized under `src/lib/`.
 
 ---
 
-📁 Project Structure
+## 📁 Project Structure
 
 The repository is organized as follows:
 
+```text
 halo-app/
 │
 ├── public/
@@ -223,9 +229,7 @@ halo-app/
 ├── scripts/
 │
 ├── src/
-│   │
 │   ├── app/
-│   │   │
 │   │   ├── (auth)/
 │   │   │   ├── login/
 │   │   │   ├── register/
@@ -258,6 +262,7 @@ halo-app/
 │   │   └── breaks/
 │   │
 │   ├── store/
+│   │   └── widget/
 │   │
 │   └── widget/
 │
@@ -278,34 +283,38 @@ halo-app/
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── README.md
+```
 
-Directory Overview
+### Directory Overview
 
-Directory| Purpose
-"src/app/(auth)"| Authentication, registration, onboarding and PIN setup
-"src/app/(parent)"| Parent authentication and protected parent flows
-"src/app/parent"| Parent dashboard, analytics, rules, profiles and garden
-"src/app/child"| Child-facing experience
-"src/app/api/widget"| API routes used by the browser widget
-"src/lib"| Core application engines
-"src/store"| Client-side state management
-"src/widget"| Browser widget source
-"public"| Static assets and compiled browser widget
-"supabase/migrations"| Database schema and migration files
-"scripts"| Project utility and build scripts
+| Directory             | Purpose                                                  |
+| --------------------- | -------------------------------------------------------- |
+| `src/app/(auth)`      | Authentication, registration, onboarding, and PIN setup  |
+| `src/app/(parent)`    | Parent authentication and protected parent flows         |
+| `src/app/parent`      | Parent dashboard, analytics, rules, profiles, and garden |
+| `src/app/child`       | Child-facing experience                                  |
+| `src/app/api/widget`  | API routes used by the browser widget                    |
+| `src/lib`             | Core application engines                                 |
+| `src/store`           | Client-side state management                             |
+| `src/widget`          | Browser widget source                                    |
+| `public`              | Static assets and compiled browser widget                |
+| `supabase/migrations` | Database schema and migration files                      |
+| `scripts`             | Project utility and build scripts                        |
 
 ---
 
-🛠️ Technology Stack
+## 🛠️ Technology Stack
 
-Technology| Purpose
-Next.js 14| Full-stack web application framework
-React| User interface
-TypeScript| Type-safe application development
-Supabase| Authentication and database
-Zustand| Client-side state management
-Tailwind CSS| Styling and UI development
-Browser Widget| Screen-time interaction layer
+| Technology     | Purpose                              |
+| -------------- | ------------------------------------ |
+| Next.js 14     | Full-stack web application framework |
+| React          | User interface                       |
+| TypeScript     | Type-safe application development    |
+| Supabase       | Authentication and database          |
+| Zustand        | Client-side state management         |
+| Tailwind CSS   | Styling and UI development           |
+| Browser Widget | Screen-time interaction layer        |
+
 
 ---
 
