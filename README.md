@@ -150,7 +150,6 @@ The compiled widget is generated at:
 public/halo-widget.js
 
 ---
-# 🏗️ Halo — Architecture & Project Structure
 
 ## Architecture
 
