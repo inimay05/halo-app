@@ -1,444 +1,364 @@
 🌱 Halo — Healthy Screen Time for Kids
 
+Halo is a parent-child screen-time management platform designed to help children develop healthier digital habits through structured supervision, positive reinforcement, and guided engagement.
 
+It provides parents with tools to understand and manage screen usage while giving children a more engaging way to learn responsible digital habits.
 
+«Important: Halo is not a solution, treatment, or cure for addiction. It is a management and support tool intended to be used alongside active parental supervision, education, healthy boundaries, communication, and appropriate professional guidance when necessary.»
 
-A companion-based approach to helping children build healthier digital habits.
+---
 
+🎯 What is Halo?
 
+Managing children's screen time is not simply about blocking access or setting strict limits.
 
+Children also need to understand why healthy digital habits matter and gradually learn how to manage their own technology use.
 
-Halo is a parent-child screen-time management platform designed to help families understand, manage, and gradually improve children's digital habits.
+Halo is designed around this idea.
 
+Instead of focusing solely on restriction, Halo combines:
 
-Rather than treating screen time as something that can simply be blocked or eliminated, Halo focuses on guided engagement, healthy boundaries, positive reinforcement, and parent involvement.
+- 👨‍👩‍👧 Parental supervision
+- ⏱️ Structured screen-time management
+- 📊 Usage and engagement information
+- 🌱 Positive reinforcement
+- 🏆 Progress and rewards
+- 📚 Guidance and teaching
+- 💬 Parent-child involvement
 
+The goal is to help families move toward healthier and more intentional technology use.
 
-The goal is not to replace parenting or professional support, but to provide families with a practical tool that can be used alongside supervision, education, and consistent healthy habits.
-
-
+---
 
 ⚠️ Important Disclaimer
 
+Halo does not diagnose, prevent, treat, or cure addiction.
 
-Halo is not a treatment or cure for screen addiction, gaming addiction, or any other form of behavioral addiction.
+Screen or technology-related behavioral problems can be complex and may require support beyond any software application.
 
+Halo should therefore be used as a supporting tool, together with:
 
-The application is designed as a support and management tool, not as a medical or psychological intervention.
+- Active parental supervision
+- Consistent and age-appropriate boundaries
+- Education about healthy technology use
+- Open communication between parents and children
+- Healthy offline activities and routines
+- Teaching children self-regulation and responsible digital behavior
+- Professional or clinical guidance when significant concerns arise
 
+The application is intended to help parents manage and teach, not to replace them.
 
-Healthy digital habits generally require more than an application. Halo is intended to work together with:
+«Technology can support healthy habits, but it cannot replace supervision, teaching, or human care.»
 
-
-
-
-👨‍👩‍👧 Active parental supervision
-
-
-📚 Education about healthy technology use
-
-
-🕐 Consistent screen-time boundaries
-
-
-🧠 Teaching children self-regulation and responsible digital behavior
-
-
-💬 Open communication between parents and children
-
-
-🌱 Offline activities, hobbies, exercise, and social interaction
-
-
-👩‍⚕️ Professional guidance when significant behavioral or mental-health concerns are present
-
-
-
-
-The platform should therefore be viewed as a companion to good supervision and teaching, rather than a standalone solution.
-
-
-
-💡 Why Halo?
-
-
-Simply restricting a child's screen time does not necessarily teach them why healthy technology use matters or how to manage it independently.
-
-
-Halo takes a more supportive approach.
-
-
-Instead of only asking:
-
-
-
-
-"How do we stop a child from using a screen?"
-
-
-
-
-Halo focuses on:
-
-
-
-
-"How can we help a child develop healthier habits around technology?"
-
-
-
-
-The platform combines parental controls, engagement awareness, positive reinforcement, and child-facing experiences to make screen-time management more collaborative.
-
-
+---
 
 ✨ Key Features
 
-
 👨‍👩‍👧 Parent Dashboard
 
+Parents have a dedicated interface for managing and understanding their child's digital activity.
 
-Parents can manage and understand their child's digital activity from a dedicated dashboard.
+The parent experience includes:
 
+- Child profiles
+- Screen-time rules
+- Analytics
+- Engagement information
+- Garden and progress tracking
+- Time Bank management
+- Parent-controlled settings
 
-Features include:
-
-
-
-
-Screen-time management
-
-
-Usage analytics
-
-
-Parent-controlled rules
-
-
-Child profiles
-
-
-Time Bank management
-
-
-Engagement information
-
-
-Garden/progress tracking
-
-
-
-
+---
 
 🧒 Child Experience
 
-
-Halo provides a child-facing environment designed to make healthy digital habits more engaging.
-
+Halo provides a dedicated child-facing experience designed to make healthy digital habits more engaging.
 
 Children can interact with:
 
+- 🌱 Progress and journey systems
+- 🪙 Cosmetic rewards
+- 🛍️ Reward shop
+- ⏳ Time Bank
+- 🏆 Badges
+- 🌳 Garden and progress mechanics
 
+The emphasis is on encouragement and learning rather than punishment.
 
-
-🌱 Progress and journey systems
-
-
-🪙 Cosmetic rewards
-
-
-🛍️ Reward/shop experiences
-
-
-⏳ Time Bank
-
-
-🏆 Badges
-
-
-🌳 Garden/progress mechanics
-
-
-
-
-The emphasis is on encouragement and learning, rather than punishment.
-
-
+---
 
 ⏳ Parent-Controlled Time Bank
 
+The Time Bank allows parents to manage additional screen time in a structured way.
 
-The Time Bank provides a structured way for parents to manage additional screen time.
-
-
-A key design principle is:
-
-
-
+Parents control how additional minutes are granted.
 
 Children cannot independently add time to their own Time Bank.
 
+This keeps the parent in control while still allowing flexibility when appropriate.
 
-
-
-Parents remain responsible for granting additional minutes.
-
-
+---
 
 🪙 Reward System
 
+Halo includes a reward system designed to encourage positive engagement.
 
-Halo uses rewards to encourage positive engagement.
+Rewards are intentionally separated from screen-time allocation.
 
+Coins are cosmetic and do not provide additional screen time.
 
-However, rewards are deliberately designed to remain cosmetic.
+This prevents the reward mechanism from becoming another way of encouraging excessive screen usage.
 
-
-
-
-Coins do not directly provide additional screen time.
-
-
-
-
-This prevents the reward system from becoming another mechanism for encouraging excessive screen usage.
-
-
+---
 
 📊 Engagement Awareness
 
+Halo provides parents with engagement-related information that can help them understand how their child interacts with the system.
 
-Halo can provide parents with engagement-related information to help them understand how a child interacts with the platform.
+These signals are:
 
+- Informational
+- Intended for parental awareness
+- Not medical assessments
+- Not psychological diagnoses
+- Not addiction diagnoses
 
-These signals are intended to be:
+They should be interpreted as one source of information within the broader context of parenting and observation.
 
-
-
-
-Informational, not diagnostic.
-
-
-
-
-They should not be interpreted as psychological, medical, or addiction assessments.
-
-
+---
 
 🌱 Garden & Progress
 
+The garden and progress system gives children a visual representation of their progress.
 
-The garden/progress system provides a visual representation of positive activity and progress.
+This provides a simple way to make positive behavior and healthy routines more tangible and engaging.
 
-
-The intention is to make healthy digital habits feel more tangible and encouraging for children.
-
-
+---
 
 🌐 Browser Widget
 
+Halo includes a lightweight browser widget designed to operate within the child's browsing environment.
 
-Halo includes a lightweight browser widget that can be injected into websites.
+The widget communicates with the Halo application through API routes and provides the screen-time management layer across supported websites.
 
-
-The widget communicates with the Halo application through its API layer and allows the platform to provide its screen-time management functionality across supported browsing experiences.
-
-
-Build the widget with:
-
+Build the widget using:
 
 npm run build:widget
 
-
-
-This generates:
-
+The compiled widget is generated at:
 
 public/halo-widget.js
 
-
-
+---
 
 🏗️ Architecture
 
+Halo follows a layered web application architecture built around a Next.js application, Supabase backend, and browser widget.
 
-Halo is built using a modern web stack:
+                         ┌───────────────────────┐
+                         │      Parent UI        │
+                         │                       │
+                         │ Dashboard • Rules     │
+                         │ Analytics • Profiles  │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                    Next.js Application                   │
+│                                                         │
+│  Authentication      Parent Experience                  │
+│  Child Experience    API Routes                         │
+│  Rewards             Engagement                         │
+│  Garden              Break Management                   │
+└───────────────────────────┬─────────────────────────────┘
+                            │
+              ┌─────────────┴─────────────┐
+              │                           │
+              ▼                           ▼
+     ┌─────────────────┐        ┌────────────────────┐
+     │     Supabase    │        │   Browser Widget   │
+     │                 │        │                    │
+     │ Authentication  │        │ Child Browser      │
+     │ Database        │        │ Activity Layer     │
+     │ Data Storage    │        │ API Communication  │
+     └─────────────────┘        └────────────────────┘
 
+Architecture Components
 
-┌───────────────────────────────┐
-│        Parent Interface       │
-│ Dashboard • Rules • Analytics │
-└───────────────┬───────────────┘
-                │
-                ▼
-┌───────────────────────────────┐
-│          Next.js App           │
-│ Auth • APIs • Child Experience│
-│ Engagement • Rewards • Garden │
-└───────────────┬───────────────┘
-                │
-        ┌───────┴────────┐
-        ▼                ▼
-┌──────────────┐  ┌──────────────┐
-│   Supabase   │  │Browser Widget│
-│ Auth + DB    │  │ Web Activity │
-└──────────────┘  └──────────────┘
+Next.js Application
 
-
-
-Project Structure
-
-
-src/
-├── app/
-│   ├── (auth)/          # Login, registration, onboarding & PIN setup
-│   ├── (parent)/        # Parent authentication & dashboard
-│   ├── parent/          # Parent management pages
-│   ├── child/           # Child-facing experience
-│   └── api/
-│       └── widget/      # Browser widget APIs
-│
-├── lib/
-│   ├── engagement/      # Engagement detection
-│   ├── coins/           # Reward system
-│   ├── badges/          # Badge system
-│   ├── garden/          # Garden/progress system
-│   └── breaks/          # Break management
-│
-├── store/               # Zustand client-side state
-│
-└── widget/              # Browser widget source
-
-supabase/
-└── migrations/          # Database migrations
-
-public/
-└── halo-widget.js       # Compiled browser widget
-
-
-
-
-🛠️ Tech Stack
-
-
-
-
-Technology
-Purpose
-
-
-
-
-Next.js 14
-Web application framework
-
-
-React
-User interfaces
-
-
-TypeScript
-Application development
-
+Acts as the primary application layer, handling authentication, parent and child interfaces, API routes, and core application logic.
 
 Supabase
-Database & authentication
 
+Provides authentication and persistent database functionality.
 
-Zustand
-Client-side state management
+Parent Interface
 
+Allows parents to configure rules, view information, manage profiles, and control screen-time-related functionality.
 
-Tailwind CSS
-Styling
+Child Interface
 
+Provides the child-facing experience including the journey, rewards, garden, and Time Bank.
 
 Browser Widget
-Screen-time interaction layer
 
+A self-contained browser-side component that interacts with the application through the widget API.
 
+Core Engines
 
+Application logic for engagement detection, coins, badges, garden progression, and break management is organized under "src/lib/".
 
+---
+
+📁 Project Structure
+
+The repository is organized as follows:
+
+halo-app/
+│
+├── public/
+│   └── halo-widget.js
+│
+├── scripts/
+│
+├── src/
+│   │
+│   ├── app/
+│   │   │
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   ├── register/
+│   │   │   ├── onboarding/
+│   │   │   └── pin/
+│   │   │
+│   │   ├── (parent)/
+│   │   │   └── ...
+│   │   │
+│   │   ├── parent/
+│   │   │   ├── analytics/
+│   │   │   ├── rules/
+│   │   │   ├── garden/
+│   │   │   └── profiles/
+│   │   │
+│   │   ├── child/
+│   │   │   ├── home/
+│   │   │   ├── shop/
+│   │   │   ├── journey/
+│   │   │   └── time-bank/
+│   │   │
+│   │   └── api/
+│   │       └── widget/
+│   │
+│   ├── lib/
+│   │   ├── engagement/
+│   │   ├── coins/
+│   │   ├── badges/
+│   │   ├── garden/
+│   │   └── breaks/
+│   │
+│   ├── store/
+│   │
+│   └── widget/
+│
+├── supabase/
+│   └── migrations/
+│       ├── 001_init.sql
+│       ├── 002_sessions.sql
+│       ├── 003_rewards.sql
+│       ├── 004_parent.sql
+│       ├── 005_anticheat.sql
+│       ├── 006_last_seen.sql
+│       └── 007_garden_delta.sql
+│
+├── .env.example
+├── middleware.ts
+├── next.config.mjs
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+
+Directory Overview
+
+Directory| Purpose
+"src/app/(auth)"| Authentication, registration, onboarding and PIN setup
+"src/app/(parent)"| Parent authentication and protected parent flows
+"src/app/parent"| Parent dashboard, analytics, rules, profiles and garden
+"src/app/child"| Child-facing experience
+"src/app/api/widget"| API routes used by the browser widget
+"src/lib"| Core application engines
+"src/store"| Client-side state management
+"src/widget"| Browser widget source
+"public"| Static assets and compiled browser widget
+"supabase/migrations"| Database schema and migration files
+"scripts"| Project utility and build scripts
+
+---
+
+🛠️ Technology Stack
+
+Technology| Purpose
+Next.js 14| Full-stack web application framework
+React| User interface
+TypeScript| Type-safe application development
+Supabase| Authentication and database
+Zustand| Client-side state management
+Tailwind CSS| Styling and UI development
+Browser Widget| Screen-time interaction layer
+
+---
 
 🚀 Getting Started
 
-
 Prerequisites
 
+Make sure you have the following installed:
 
-Make sure you have:
+- Node.js 18+
+- npm
+- A Supabase account and project
 
-
-
-
-Node.js 18+
-
-
-npm
-
-
-A Supabase account and project
-
-
-
-
+---
 
 1. Clone the Repository
-
 
 git clone https://github.com/inimay05/halo-app.git
 cd halo-app
 
-
-
+---
 
 2. Configure Environment Variables
 
-
-Create your local environment file:
-
+Copy the example environment file:
 
 cp .env.example .env.local
 
-
-
-Add your Supabase credentials:
-
+Add your Supabase credentials to ".env.local":
 
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
+«Security: "SUPABASE_SERVICE_ROLE_KEY" must remain server-side and must never be exposed to the browser or committed to the repository.»
 
-
-
-
-Security: The Supabase service-role key must remain server-side and should never be exposed to the browser.
-
-
-
-
+---
 
 3. Install Dependencies
 
-
 npm install
 
-
-
+---
 
 4. Set Up the Database
 
-
 Run the Supabase migrations in order.
 
+Using the Supabase CLI:
 
 supabase db push
 
-
-
-Or execute the migration files through the Supabase SQL editor:
-
+Alternatively, the migration files can be executed through the Supabase SQL Editor:
 
 supabase/migrations/001_init.sql
 supabase/migrations/002_sessions.sql
@@ -448,192 +368,164 @@ supabase/migrations/005_anticheat.sql
 supabase/migrations/006_last_seen.sql
 supabase/migrations/007_garden_delta.sql
 
+---
 
-
-
-5. Run Locally
-
+5. Start the Development Server
 
 npm run dev
 
-
-
-Then open:
-
+The application will be available at:
 
 http://localhost:3000
 
+---
 
+🌐 Browser Widget
 
+Halo includes a self-contained browser widget that can be injected into a child's browsing environment.
+
+Build it with:
+
+npm run build:widget
+
+The build produces:
+
+public/halo-widget.js
+
+The widget can then be included on a supported website using:
+
+<script
+  src="https://your-app.vercel.app/halo-widget.js"
+  data-child-id="CHILD_UUID">
+</script>
+
+The widget communicates with the application's API layer under:
+
+src/app/api/widget/
+
+---
 
 📦 Production Build
 
-
-Build the application with:
-
+To create a production build:
 
 npm run build
 
-
-
-Then start it using:
-
+Start the production server with:
 
 npm start
 
+The project's build process also builds the browser widget before running the Next.js production build.
 
+---
 
-The production build also handles the browser widget build automatically.
+🔐 Product Safeguards
 
+Halo intentionally separates management, rewards, and engagement information.
 
+Cosmetic Rewards
 
-🧩 Design Philosophy
+Coins are purely cosmetic and cannot be exchanged for additional screen time.
 
+Parent-Controlled Time Bank
 
-Halo is built around several principles:
+Only parents can grant additional Time Bank minutes.
 
+Informational Engagement Data
 
-1. Management over punishment
+Engagement information is provided for parental awareness and should not be interpreted as a medical, psychological, or addiction assessment.
 
+Human Supervision
 
-The goal is not simply to take technology away.
+Halo is designed to support parents, not replace them.
 
+---
 
-The platform aims to help families establish structured and healthier patterns of use.
+🧠 Design Philosophy
 
+Halo is built around four core principles.
 
-2. Parents remain in control
+1. Manage, Don't Simply Restrict
 
+The goal is not merely to block access to technology.
 
-Important decisions around screen time remain with the parent.
+Instead, Halo provides structure around when and how technology is used.
 
+2. Teach Alongside Management
 
-Technology should support parenting — not replace it.
+Children need to understand why healthy technology habits matter.
 
+Halo is therefore intended to be used alongside conversations, education, and guidance from parents and caregivers.
 
-3. Teach, don't just restrict
+3. Encourage Positive Habits
 
+Progress, rewards, and visual feedback can make healthy routines more understandable and engaging for children.
 
-Children should gradually learn why healthy digital habits matter.
+4. Keep Humans in the Loop
 
+Technology should support the parent-child relationship rather than replace it.
 
-Halo is therefore intended to complement conversations, education, and consistent guidance.
+Parents remain responsible for interpreting their child's behavior, setting appropriate boundaries, and providing guidance.
 
+---
 
-4. Positive reinforcement
+🌱 The Bigger Picture
 
+Healthy technology use is not something that can be created by an application alone.
 
-Progress and healthy behavior can be encouraged through non-intrusive rewards and visual feedback.
+It comes from a combination of:
 
+                ┌──────────────────────┐
+                │  Parental Supervision│
+                └──────────┬───────────┘
+                           │
+                ┌──────────▼───────────┐
+                │      Education       │
+                └──────────┬───────────┘
+                           │
+                ┌──────────▼───────────┐
+                │  Healthy Boundaries  │
+                └──────────┬───────────┘
+                           │
+                ┌──────────▼───────────┐
+                │ Communication & Care │
+                └──────────┬───────────┘
+                           │
+                ┌──────────▼───────────┐
+                │    Halo as a Tool    │
+                └──────────┬───────────┘
+                           │
+                           ▼
+                Healthier Digital Habits
 
-5. No false promises
+Halo is designed to be one part of this ecosystem.
 
+The long-term objective is to help children gradually move from externally managed screen time toward greater awareness, responsibility, and self-regulation.
 
-Halo does not claim to diagnose, prevent, or cure addiction.
-
-
-It is a digital tool for screen-time management and habit support.
-
-
-
-🔐 Product Constraints
-
-
-Several safeguards are intentionally built into the product:
-
-
-
-
-Coins are cosmetic and do not provide additional screen time.
-
-
-Time Bank access is parent-controlled.
-
-
-Children cannot independently add time to their Time Bank.
-
-
-Engagement scores are informational for parents, not medical or psychological assessments.
-
-
-Halo is not intended to replace professional care or parental supervision.
-
-
-
-
-
-🌱 The Bigger Goal
-
-
-Healthy technology use isn't created by an app alone.
-
-
-It develops through a combination of:
-
-
-Technology
-     +
-Parental Supervision
-     +
-Education
-     +
-Communication
-     +
-Healthy Offline Habits
-     +
-Consistent Boundaries
-     ↓
-Healthier Digital Habits
-
-
-
-Halo is designed to be one part of that ecosystem.
-
-
-The long-term goal is to help children move from externally managed screen time toward greater understanding and self-regulation as they grow.
-
-
+---
 
 🤝 Contributing
 
+Contributions and feedback are welcome.
 
-Contributions, ideas, and feedback are welcome.
+To contribute:
 
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Test the changes locally.
+5. Open a pull request.
 
-If you'd like to contribute:
-
-
-
-
-Fork the repository
-
-
-Create a feature branch
-
-
-Make your changes
-
-
-Test your changes locally
-
-
-Open a pull request
-
-
-
+---
 
 💚 Final Note
 
+Halo is not a cure for addiction.
 
-Halo is not intended to be a replacement for parents, teachers, counselors, psychologists, or other professionals.
+It is a tool designed to help families manage screen time, encourage healthier habits, and support conversations and teaching around responsible technology use.
 
+The most important components remain outside the application:
 
-It is a supportive technology layer designed to make screen-time management more structured, understandable, and engaging.
+supervision, education, communication, healthy boundaries, offline activities, and care.
 
-
-The most important part of healthy technology use remains the human element:
-
-
-supervision, communication, education, boundaries, and care.
-
-
+Halo simply provides a technological layer to help families put those principles into practice.
